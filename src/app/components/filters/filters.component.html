@@ -1,0 +1,26 @@
+<div class="filters">
+  <div *ngFor="let filter of filters.values()" class="filter">
+    <mat-chip disabled>
+      <span class="field">
+        {{filter.field | split | titlecase}}
+      </span>
+      <span class="operator">
+        {{filter.operator | titlecase}}
+      </span>
+      <span class="values">
+        {{filter.values | formatFilterValues}}
+      </span>
+      <span
+        matChipRemove 
+        [attr.aria-label]="'remove ' + filter.field"
+        (click)="clearFilter(filter.field)">
+          <mat-icon>cancel</mat-icon>
+    </span>
+    </mat-chip>
+  </div>
+  <div class="filter">
+    <mat-chip disabled class="add">
+      <mat-icon>add</mat-icon>
+    </mat-chip>
+  </div>
+</div>

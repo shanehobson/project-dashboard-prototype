@@ -1,0 +1,43 @@
+.filters {
+  display: flex;
+}
+
+.filter {
+  padding: .6rem 1rem .6rem 0;
+
+  .operator {
+    opacity: 0.7;
+  }
+
+  .field, .values {
+    font-weight: bold;
+  }
+
+  span {
+    padding-left: .3rem;
+  }
+
+  span[matChipRemove] {
+    padding-top: .2rem;
+    padding-left: .5rem;
+    cursor: pointer;
+  }
+
+  mat-chip {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    border: 1px solid #ffffff;
+    border-radius: 20px;
+    padding: .1rem .6rem;
+  }
+
+  mat-chip.add {
+    height: 2rem;
+    cursor: pointer;
+
+    mat-icon {
+      transform: scale(1.4);
+    }
+  }
+}

@@ -13,27 +13,14 @@ export class ProjectDashboardTableComponent implements OnInit {
   @Input() loading = false;
   @Input() columns: Column[] = [];
   @Output() updateFilters = new EventEmitter<Map<ProjectField, ProjectFilter>>();
-  
-  filters = new Map<ProjectField, ProjectFilter>();
+
+
 
   constructor() { }
 
   ngOnInit(): void {
   }
 
-  updateFilter(filter: ProjectFilter) {
-    this.filters.set(filter.field, filter);
-    this.updateFilters.emit(this.filters);
-  }
-
-  clearFilter(key: ProjectField) {
-    this.filters.delete(key);
-    this.updateFilters.emit(this.filters);
-  }
-
-  clearFilters() {
-    this.filters.clear();
-    this.updateFilters.emit(this.filters);
-  }
+ 
 
 }

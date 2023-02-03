@@ -11,7 +11,9 @@ import { ProjectService } from './services/project.service';
   styleUrls: ['./app.component.scss']
 })
 export class AppComponent {
-  projects$ = this.projectService.getProjects().pipe(tap(() => this.loading = false));
+  projects$ = this.projectService.getProjects()
+    .pipe(tap(() => this.loading = false));
+
   columns: Column[] = [];
   loading = false;
  

@@ -17,6 +17,12 @@
         "build": {
           "builder": "@angular-devkit/build-angular:browser",
           "options": {
+            "stylePreprocessorOptions": {
+              "includePaths": [
+                "node_modules/",
+                "src/assets/styles"
+              ]
+            },
             "outputPath": "dist/project-dashboard-prototype",
             "index": "src/index.html",
             "main": "src/main.ts",
