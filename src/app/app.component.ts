@@ -11,8 +11,8 @@ import { ProjectService } from './project.service';
 })
 export class AppComponent implements OnInit {
   projects: Project[] = [];
+  filters = new Map<ProjectField, ProjectFilter>();
   loading = true;
-  filters = new Map<ProjectField, ProjectFilter>()
 
   constructor(private projectService: ProjectService){}
 

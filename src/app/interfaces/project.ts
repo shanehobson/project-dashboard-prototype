@@ -12,10 +12,15 @@ export type ProjectField = keyof Project;
 
 export enum Division {
   Accounting = 'accounting',
-
+  Administration = 'administration',
+  Marketing = 'marketing',
+  Production = 'production',
+  Sales = 'sales'
 }
 
 export enum ProjectStatus {
   Archived = 'archived',
-
+  Delivered = 'delivered',
+  New = 'new',
+  Working = 'working'
 }
