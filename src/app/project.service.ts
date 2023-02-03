@@ -1,5 +1,5 @@
 import { Injectable } from '@angular/core';
-import { Observable, of } from 'rxjs';
+import { BehaviorSubject, Observable, of, } from 'rxjs';
 import * as moment from 'moment';
 import { Project, ProjectField } from './interfaces/project';
 import { Operator, ProjectFilter } from './interfaces/project-filter';
@@ -9,20 +9,18 @@ import mockData from './mock-data.json';
   providedIn: 'root'
 })
 export class ProjectService {
-  projects: Project[] | null = null;
+  private projects$ = new BehaviorSubject<Project[]>(mockData);
 
-  getProjects(filters: Map<ProjectField, ProjectFilter>): Observable<Project[]> {
-    if (!this.projects) {
-      this.projects = mockData;
-    }
+  getProjects(): Observable<Project[]> {
+    return this.projects$.asObservable();
+  }
 
-    let projects = [...this.projects!];
+  updateFilters(filters: Map<ProjectField, ProjectFilter>) {
+    let projects = [...mockData];
     for (const filter of filters.values()) {
       projects = this.filterProjects(filter, projects);
     }
-
-    // Returning an observable in order to mock the behavior of an actual HTTP call.
-    return of(projects);
+    this.projects$.next(projects);
   }
 
   filterProjects(filter: ProjectFilter, projects: Project[]): Project[] {
@@ -40,7 +38,6 @@ export class ProjectService {
           default:
             throw new Error(`Operator ${operator} does not exist.`);
       }
-
-    })
+    });
   }
 }

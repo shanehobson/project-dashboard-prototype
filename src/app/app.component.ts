@@ -9,39 +9,24 @@ import { ProjectService } from './project.service';
   templateUrl: './app.component.html',
   styleUrls: ['./app.component.scss']
 })
-export class AppComponent implements OnInit {
-  projects: Project[] = [];
+export class AppComponent {
+  projects$ = this.projectService.getProjects();
   filters = new Map<ProjectField, ProjectFilter>();
-  loading = true;
 
   constructor(private projectService: ProjectService){}
 
-  ngOnInit () {
-    this.getProjects();
-  }
-
-  getProjects() {
-    this.loading = true;
-    this.projectService.getProjects(this.filters)
-    .pipe(take(1))
-    .subscribe(projects => {
-      this.projects = projects;
-      this.loading = false;
-    })
-  }
-
   updateFilter(filter: ProjectFilter) {
     this.filters.set(filter.field, filter);
-    this.getProjects();
+    this.projectService.updateFilters(this.filters);
   }
 
   clearFilter(key: ProjectField) {
     this.filters.delete(key);
-    this.getProjects();
+    this.projectService.updateFilters(this.filters);
   }
 
   clearFilters() {
     this.filters.clear();
-    this.getProjects();
+    this.projectService.updateFilters(this.filters);
   }
 }
