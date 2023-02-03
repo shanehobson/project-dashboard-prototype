@@ -1,8 +1,9 @@
 import { Component, OnInit } from '@angular/core';
-import { take } from 'rxjs';
+import { take, tap } from 'rxjs';
+import { Column } from './interfaces/column';
 import { Project, ProjectField } from './interfaces/project';
 import { ProjectFilter } from './interfaces/project-filter';
-import { ProjectService } from './project.service';
+import { ProjectService } from './services/project.service';
 
 @Component({
   selector: 'app-root',
@@ -10,23 +11,17 @@ import { ProjectService } from './project.service';
   styleUrls: ['./app.component.scss']
 })
 export class AppComponent {
-  projects$ = this.projectService.getProjects();
-  filters = new Map<ProjectField, ProjectFilter>();
-
+  projects$ = this.projectService.getProjects().pipe(tap(() => this.loading = false));
+  columns: Column[] = [];
+  loading = false;
+ 
   constructor(private projectService: ProjectService){}
 
-  updateFilter(filter: ProjectFilter) {
-    this.filters.set(filter.field, filter);
-    this.projectService.updateFilters(this.filters);
+  ngOnInit() {
+    this.columns = this.projectService.getColumns();
   }
 
-  clearFilter(key: ProjectField) {
-    this.filters.delete(key);
-    this.projectService.updateFilters(this.filters);
-  }
-
-  clearFilters() {
-    this.filters.clear();
-    this.projectService.updateFilters(this.filters);
+  onUpdateFilters(filters: Map<ProjectField, ProjectFilter>) {
+    this.projectService.updateFilters(filters);
   }
 }

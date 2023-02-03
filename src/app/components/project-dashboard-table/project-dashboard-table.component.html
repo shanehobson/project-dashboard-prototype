@@ -1,0 +1,32 @@
+
+  <div *ngIf="loading, else projectsTable">
+    Loading...
+  </div>
+  <ng-template #projectsTable>
+    <table>
+      <tr class="header">
+        <th *ngFor="let column of columns">{{column.field | split | titlecase}}</th>
+      </tr>
+      <tr *ngFor="let project of projects">
+        <td *ngFor="let column of columns">
+          <ng-container [ngSwitch]="column.field">
+            <span *ngSwitchCase="'created'">
+              {{ project[column.field] | date }}
+            </span>
+            <span *ngSwitchCase="'modified'">
+              {{ project[column.field] | date }}
+            </span>
+            <span *ngSwitchCase="'budget'">
+              {{ project[column.field] | currency }}
+            </span>
+            <span *ngSwitchDefault>
+              {{ project[column.field] }}
+            </span>
+           
+          </ng-container>
+       
+        </td>
+      </tr>
+    </table>
+  </ng-template>
+

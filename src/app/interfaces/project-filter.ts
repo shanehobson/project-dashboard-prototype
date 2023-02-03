@@ -10,3 +10,4 @@ export enum Operator {
   Equals = 'equals',
   Between = 'between',
 }
+

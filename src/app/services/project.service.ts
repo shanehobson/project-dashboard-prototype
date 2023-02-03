@@ -1,9 +1,10 @@
 import { Injectable } from '@angular/core';
-import { BehaviorSubject, Observable, of, } from 'rxjs';
+import { BehaviorSubject, Observable } from 'rxjs';
 import * as moment from 'moment';
-import { Project, ProjectField } from './interfaces/project';
-import { Operator, ProjectFilter } from './interfaces/project-filter';
-import mockData from './mock-data.json';
+import { Project, ProjectField } from '../interfaces/project';
+import { Operator, ProjectFilter } from '../interfaces/project-filter';
+import mockData from '../data/mock-data.json';
+import { Column, columns } from '../interfaces/column';
 
 @Injectable({
   providedIn: 'root'
@@ -39,5 +40,9 @@ export class ProjectService {
             throw new Error(`Operator ${operator} does not exist.`);
       }
     });
+  }
+
+  getColumns(): Column[] {
+    return columns;
   }
 }
