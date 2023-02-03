@@ -1,9 +1,6 @@
 <div class="container">
   <h1>Project Dashboard</h1>
   <app-project-dashboard-metadata></app-project-dashboard-metadata>
-  <app-project-dashboard-filters
-    (updateFilters)="onUpdateFilters($event)">
-  </app-project-dashboard-filters>
   <app-project-dashboard-table 
     [projects]="projects$ | async"
     [columns]="columns"

@@ -1,1 +1,13 @@
-/* You can add global styles to this file, and also import other style files */
+body {
+  font-family: 'Helvetica Neue', Helvetica, Arial;
+  font-size: 14px;
+  line-height: 20px;
+  background: #4B494F;
+  color: #ffffff;
+}
+
+.container {
+  margin: 20px auto;
+  padding: 40px;
+  max-width: 1200px;
+}

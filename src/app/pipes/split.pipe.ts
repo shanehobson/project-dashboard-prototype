@@ -4,8 +4,8 @@ import { Pipe, PipeTransform } from '@angular/core';
   name: 'split'
 })
 export class SplitPipe implements PipeTransform {
-  transform(value: string): string {
-    return value.replace(/-|_/g, ' ');
+  transform(value: string | number): string {
+    return String(value).replace(/-|_/g, ' ');
   }
 
 }

@@ -20,11 +20,9 @@
               {{ project[column.field] | currency }}
             </span>
             <span *ngSwitchDefault>
-              {{ project[column.field] }}
+              {{ project[column.field] | split | titlecase }}
             </span>
-           
           </ng-container>
-       
         </td>
       </tr>
     </table>
