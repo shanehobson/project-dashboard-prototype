@@ -28,7 +28,12 @@ export class FiltersComponent implements OnInit {
     this.filters.set('created', {
       field: 'created',
       operator: Operator.Between,
-      values: ['08/31/2013', '08/31/2015']
+      values: ['08/31/2013', '10/31/2015']
+    }),
+    this.filters.set('modified', {
+      field: 'created',
+      operator: Operator.Between,
+      values: ['08/31/2013', '10/31/2015']
     })
   }
 

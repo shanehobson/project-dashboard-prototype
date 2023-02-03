@@ -29,12 +29,14 @@ export class ProjectService {
       const { field, operator, values } = filter;
       switch (operator) {
         case Operator.Equals:
+          console.log(project[field], values[0])
           return project[field] === values[0];
         case Operator.Between:
           const [start, end] = values
           .slice(0, 2)
           .map(value => moment(value));
           const dateToTest = moment(project[field]);
+          console.log(start, end, dateToTest)
           return dateToTest.isBetween(start, end, 'day');
           default:
             throw new Error(`Operator ${operator} does not exist.`);

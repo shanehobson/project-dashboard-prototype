@@ -14,8 +14,6 @@ export class ProjectDashboardTableComponent implements OnInit {
   @Input() columns: Column[] = [];
   @Output() updateFilters = new EventEmitter<Map<ProjectField, ProjectFilter>>();
 
-
-
   constructor() { }
 
   ngOnInit(): void {

@@ -23,4 +23,9 @@
       <mat-icon>add</mat-icon>
     </mat-chip>
   </div>
+  <div *ngIf="filters.size > 0" class="filter">
+    <mat-chip disabled class="clear" (click)="clearFilters()">
+      Clear
+    </mat-chip>
+  </div>
 </div>
