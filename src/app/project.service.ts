@@ -1,7 +1,7 @@
 import { Injectable } from '@angular/core';
 import { Observable, of } from 'rxjs';
 import * as moment from 'moment';
-import { Project } from './interfaces/project';
+import { Project, ProjectField } from './interfaces/project';
 import { Operator, ProjectFilter } from './interfaces/project-filter';
 import mockData from './mock-data.json';
 
@@ -21,9 +21,9 @@ export class ProjectService {
     this.initialized = true;
   }
 
-  getProjects(filters: ProjectFilter[] = []): Observable<Project[]> {
+  getProjects(filters: Map<ProjectField, ProjectFilter>): Observable<Project[]> {
     let projects = [...this.projects];
-    for (const filter of filters) {
+    for (const filter of filters.values()) {
       projects = this.filterProjects(filter, projects);
     }
     return of([]);
