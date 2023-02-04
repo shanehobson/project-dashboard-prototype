@@ -10,6 +10,9 @@
   <app-project-dashboard-table 
     [projects]="projects$ | async"
     [columns]="columns"
-    [loading]="loading">
+    [loading]="loading"
+    [pagination]="pagination"
+    (updatePagination)="onUpdatePagination($event)"
+    >
   </app-project-dashboard-table>
 </div>

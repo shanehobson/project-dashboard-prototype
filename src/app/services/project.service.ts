@@ -1,10 +1,11 @@
 import { Injectable } from '@angular/core';
-import { BehaviorSubject, delay, Observable } from 'rxjs';
+import { BehaviorSubject, delay, map, Observable, take } from 'rxjs';
 import * as moment from 'moment';
 import { Project, ProjectField } from '../interfaces/project';
 import { Operator, ProjectFilter } from '../interfaces/project-filter';
 import mockData from '../data/mock-data.json';
 import { Column, columns } from '../interfaces/column';
+import { PageEvent } from '@angular/material/paginator';
 
 @Injectable({
   providedIn: 'root'
@@ -12,9 +13,22 @@ import { Column, columns } from '../interfaces/column';
 export class ProjectService {
   private projects$ = new BehaviorSubject<Project[]>(mockData);
 
+  defaultPagination: PageEvent = {
+    pageIndex: 0,
+    pageSize: 20,
+    previousPageIndex: 0,
+    length: 0
+  };
+  private pagination: PageEvent = this.defaultPagination;
+
   getProjects(): Observable<Project[]> {
-    // Delaying response to simulate http call
-    return this.projects$.pipe(delay(800));
+    return this.projects$.
+      pipe(
+        delay(800), // Delaying response to simulate http call
+        map(projects => {
+          this.pagination.length = projects.length;
+          return this.applyPagination(projects);
+      }))
   }
 
   updateFilters(filters: ProjectFilter[]) {
@@ -23,6 +37,7 @@ export class ProjectService {
       projects = this.filterProjects(filter, projects);
     }
   
+    this.pagination = this.defaultPagination;
     this.projects$.next(projects);
   }
 
@@ -56,5 +71,23 @@ export class ProjectService {
 
   getColumns(): Column[] {
     return columns;
+  }
+
+  updatePagination(event: PageEvent) {
+    this.projects$.pipe(take(1)).subscribe(projects => {
+      this.pagination = event;
+      this.projects$.next(projects);
+    });
+  }
+
+  applyPagination(projects: Project[]): Project[] {
+    const { pageIndex, pageSize } = this.pagination;
+    const startIndex = pageIndex * pageSize;
+    const endIndex = startIndex + pageSize;
+    return projects.slice(startIndex, endIndex);
+  }
+
+  getPagination(): PageEvent {
+    return this.pagination;
   }
 }

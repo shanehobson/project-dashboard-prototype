@@ -1,4 +1,5 @@
 import { Component, OnInit } from '@angular/core';
+import { PageEvent } from '@angular/material/paginator';
 import { take, tap } from 'rxjs';
 import { Column } from './interfaces/column';
 import { Project, ProjectField } from './interfaces/project';
@@ -26,5 +27,14 @@ export class AppComponent {
   onUpdateFilters(filters: ProjectFilter[]) {
     this.loading = true;
     this.projectService.updateFilters(filters);
+  }
+
+  onUpdatePagination(event: PageEvent) {
+    this.loading = true;
+    this.projectService.updatePagination(event);
+  }
+
+  get pagination(): PageEvent {
+    return this.projectService.getPagination();
   }
 }

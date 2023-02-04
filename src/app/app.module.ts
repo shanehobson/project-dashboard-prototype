@@ -11,6 +11,7 @@ import { MatDatepickerModule } from '@angular/material/datepicker';
 import { MatMomentDateModule } from "@angular/material-moment-adapter";
 import { MatButtonModule } from '@angular/material/button';
 import { MatTooltipModule } from '@angular/material/tooltip';
+import { MatPaginatorModule } from '@angular/material/paginator';
 
 import { AppComponent } from './app.component';
 import { ProjectDashboardTableComponent } from './components/project-dashboard-table/project-dashboard-table.component';
@@ -46,7 +47,8 @@ import { SpinnerComponent } from './components/spinner/spinner.component';
     ReactiveFormsModule,
     MatMomentDateModule,
     MatButtonModule,
-    MatTooltipModule
+    MatTooltipModule,
+    MatPaginatorModule
   ],
   providers: [],
   bootstrap: [AppComponent],

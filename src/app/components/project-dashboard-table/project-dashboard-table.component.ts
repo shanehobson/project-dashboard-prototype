@@ -1,5 +1,5 @@
-import { Component, EventEmitter, Input, OnInit, Output } from '@angular/core';
-import { ProjectFilter } from 'src/app/interfaces/project-filter';
+import { Component, EventEmitter, Input,  Output } from '@angular/core';
+import { PageEvent } from '@angular/material/paginator';
 import { Column } from '../../interfaces/column';
 import { Project } from '../../interfaces/project';
 
@@ -8,17 +8,18 @@ import { Project } from '../../interfaces/project';
   templateUrl: './project-dashboard-table.component.html',
   styleUrls: ['./project-dashboard-table.component.scss']
 })
-export class ProjectDashboardTableComponent implements OnInit {
+export class ProjectDashboardTableComponent {
   @Input() projects: Project[] | null = [];
   @Input() loading = false;
   @Input() columns: Column[] = [];
-  @Output() updateFilters = new EventEmitter<ProjectFilter[]>();
+  @Input() pagination: PageEvent | null = null;
+  @Output() updatePagination = new EventEmitter<PageEvent>();
+
+  pageSizeOptions = [ 5, 10, 20 ];
 
   constructor() { }
 
-  ngOnInit(): void {
+  onPaginatorEvent(event: PageEvent) {
+    this.updatePagination.emit(event);
   }
-
- 
-
 }

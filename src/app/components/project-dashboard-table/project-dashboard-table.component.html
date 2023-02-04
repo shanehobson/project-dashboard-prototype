@@ -28,6 +28,16 @@
       </tr>
    
     </table>
+    <mat-paginator
+      [ngClass]="pagination && projects && projects.length > 0 ? '' : 'hide'"
+      [length]="pagination?.length"
+      [pageSize]="pagination?.pageSize"
+      [pageIndex]="pagination?.pageIndex"
+      [pageSizeOptions]="pageSizeOptions"
+      aria-label="Select page"
+      (page)="onPaginatorEvent($event)"
+      >
+    </mat-paginator>
     <div *ngIf="projects?.length === 0" class="no-results">
       No results match your search query. Please try again.
     </div>
