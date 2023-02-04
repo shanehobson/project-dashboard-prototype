@@ -1,6 +1,6 @@
 <div class="filters" [ngClass]="showFilters ? '' : 'hide'">
   <div *ngFor="let filter of filters" class="filter">
-    <mat-chip disableRipple [disabled]="loading" (click)="onOpenFilterDialog(filter)">
+    <mat-chip disableRipple [disabled]="loading">
       <span class="field">
         {{filter.field | split | titlecase}}
       </span>

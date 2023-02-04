@@ -19,23 +19,18 @@ export class FiltersComponent  {
 
   constructor(public dialog: MatDialog) { }
 
-  onOpenFilterDialog(filter: ProjectFilter | null = null) {
+  onOpenFilterDialog() {
     let dialogRef: MatDialogRef<FilterComponent> = this.dialog.open(FilterComponent, {
       height: '370px',
       width: '500px',
       data: {
-        columns: this.columns,
-        filter
+        columns: this.columns
       }
     });
 
-    dialogRef.afterClosed().subscribe(({ filter, replace }) => {
-      if (filter) {
-        if (replace) {
-          this.onReplaceFilter(filter, replace);
-        } else {
-          this.onUpdateFilter(filter);
-        }
+    dialogRef.afterClosed().subscribe((data) => {
+      if (data?.filter) {
+        this.onUpdateFilter(data.filter);
       }
     });
   }

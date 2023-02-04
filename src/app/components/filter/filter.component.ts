@@ -1,7 +1,6 @@
 import { Component, Inject, OnDestroy, OnInit } from '@angular/core';
 import { FormBuilder, FormControl, FormGroup } from '@angular/forms';
 import { MatDialogRef, MAT_DIALOG_DATA } from '@angular/material/dialog';
-import * as moment from 'moment';
 import { filter, Subject, takeUntil } from 'rxjs';
 import { Column } from 'src/app/interfaces/column';
 import { ProjectFilter } from 'src/app/interfaces/project-filter';
@@ -14,7 +13,7 @@ import { ProjectFilter } from 'src/app/interfaces/project-filter';
 export class FilterComponent implements OnInit, OnDestroy {
 
   form: FormGroup = this.fb.group({
-    column: new FormControl({ value: null, disabled: !!this.data.filter }),
+    column: new FormControl(null),
     operator: new FormControl({ value: null, disabled: true }),
     value: new FormControl(null),
     startDate: new FormControl(null),
@@ -25,15 +24,11 @@ export class FilterComponent implements OnInit, OnDestroy {
 
   constructor(
     public dialogRef: MatDialogRef<FilterComponent>,
-    @Inject(MAT_DIALOG_DATA) public data: { columns: Column[], filter: ProjectFilter | null },
+    @Inject(MAT_DIALOG_DATA) public data: { columns: Column[] },
     private fb: FormBuilder
   ) {}
 
   ngOnInit(): void {
-    if (this.data.filter) {
-      this.syncFilter(this.data.filter);
-    }
-    
     this.form.get('column')!.valueChanges
       .pipe(
         takeUntil(this.unsubscribe$),
@@ -58,24 +53,6 @@ export class FilterComponent implements OnInit, OnDestroy {
       } else {
         this.form.get('value')?.disable();
       }
-    });
-  }
-
-  syncFilter(filter: ProjectFilter) {
-    const { field, operator, values } = filter;
-    let value = null, startDate = null, endDate = null;
-    if (values.length === 1) {
-      value = values[0];
-    } else if (values.length > 1) {
-      startDate = moment(values[0]);
-      endDate = moment(values[1]);
-    }
-    this.form.patchValue({
-      column: this.data.columns.find(column => column.field === field),
-      operator,
-      value,
-      startDate,
-      endDate
     });
   }
 
@@ -113,7 +90,7 @@ export class FilterComponent implements OnInit, OnDestroy {
       operator,
       values: operator === 'between' ? [ startDate, endDate ] : [ value ]
     }
-    this.dialogRef.close({ filter, replace: this.data.filter });
+    this.dialogRef.close({ filter });
   }
 
   ngOnDestroy() {
