@@ -29,10 +29,10 @@
    
     </table>
     <mat-paginator
-      [ngClass]="pagination && projects && projects.length > 0 ? '' : 'hide'"
-      [length]="pagination?.length"
-      [pageSize]="pagination?.pageSize"
-      [pageIndex]="pagination?.pageIndex"
+      *ngIf="pagination && projects && projects.length > 0"
+      [length]="pagination.length"
+      [pageSize]="pagination.pageSize"
+      [pageIndex]="pagination.pageIndex"
       [pageSizeOptions]="pageSizeOptions"
       aria-label="Select page"
       (page)="onPaginatorEvent($event)"

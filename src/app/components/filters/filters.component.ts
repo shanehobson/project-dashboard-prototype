@@ -29,11 +29,25 @@ export class FiltersComponent  {
       }
     });
 
-    dialogRef.afterClosed().subscribe((filter: ProjectFilter) => {
+    dialogRef.afterClosed().subscribe(({ filter, replace }) => {
       if (filter) {
-        this.onUpdateFilter(filter);
+        if (replace) {
+          this.onReplaceFilter(filter, replace);
+        } else {
+          this.onUpdateFilter(filter);
+        }
       }
     });
+  }
+
+  onReplaceFilter(newFilter: ProjectFilter, oldFilter: ProjectFilter) {
+    this.filters = this.filters.map(filter => {
+      if (filter === oldFilter) {
+        return newFilter;
+      }
+      return filter;
+    })
+    this.updateFilters.emit(this.filters);
   }
 
   onUpdateFilter(filter: ProjectFilter) {

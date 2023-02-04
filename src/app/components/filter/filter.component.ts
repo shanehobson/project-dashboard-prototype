@@ -2,7 +2,7 @@ import { Component, Inject, OnDestroy, OnInit } from '@angular/core';
 import { FormBuilder, FormControl, FormGroup } from '@angular/forms';
 import { MatDialogRef, MAT_DIALOG_DATA } from '@angular/material/dialog';
 import * as moment from 'moment';
-import { Subject, takeUntil } from 'rxjs';
+import { filter, Subject, takeUntil } from 'rxjs';
 import { Column } from 'src/app/interfaces/column';
 import { ProjectFilter } from 'src/app/interfaces/project-filter';
 
@@ -14,8 +14,8 @@ import { ProjectFilter } from 'src/app/interfaces/project-filter';
 export class FilterComponent implements OnInit, OnDestroy {
 
   form: FormGroup = this.fb.group({
-    column: new FormControl(null),
-    operator: new FormControl(null),
+    column: new FormControl({ value: null, disabled: !!this.data.filter }),
+    operator: new FormControl({ value: null, disabled: true }),
     value: new FormControl(null),
     startDate: new FormControl(null),
     endDate: new FormControl(null),
@@ -35,16 +35,30 @@ export class FilterComponent implements OnInit, OnDestroy {
     }
     
     this.form.get('column')!.valueChanges
-      .pipe(takeUntil(this.unsubscribe$))
+      .pipe(
+        takeUntil(this.unsubscribe$),
+        filter(val => !!val))
       .subscribe((column) => {
+        this.form.get('operator')?.enable();
         this.form.patchValue({
           // @todo: Enable multiple operators per field.
-          operator: column? column.operator : null, 
+          operator: column ? column.operator : null, 
           value: null,
           date1: null,
           date2: null
         });
-    })
+    });
+
+    this.form.get('operator')!.valueChanges
+    .pipe(
+      takeUntil(this.unsubscribe$))
+    .subscribe((operator) => {
+      if (operator) {
+        this.form.get('value')?.enable();
+      } else {
+        this.form.get('value')?.disable();
+      }
+    });
   }
 
   syncFilter(filter: ProjectFilter) {
@@ -99,7 +113,7 @@ export class FilterComponent implements OnInit, OnDestroy {
       operator,
       values: operator === 'between' ? [ startDate, endDate ] : [ value ]
     }
-    this.dialogRef.close(filter);
+    this.dialogRef.close({ filter, replace: this.data.filter });
   }
 
   ngOnDestroy() {

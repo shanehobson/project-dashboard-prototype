@@ -4,7 +4,7 @@
     
     <mat-form-field appearance="fill" >
       <mat-label>Field</mat-label>
-      <mat-select formControlName="column" [disabled]="!!data.filter">
+      <mat-select formControlName="column">
         <mat-option>Select</mat-option>
         <mat-option *ngFor="let column of data.columns" [value]="column">
           {{column.field | split | titlecase}}
@@ -14,7 +14,7 @@
 
     <mat-form-field appearance="fill">
       <mat-label>Operator</mat-label>
-      <mat-select formControlName="operator" [disabled]="!form.get('column')?.value">
+      <mat-select formControlName="operator">
         <mat-option *ngFor="let operator of getOperatorOptions()" [value]="operator">
           {{ operator | split | titlecase }}
         </mat-option>
@@ -46,7 +46,7 @@
           appearance="fill"
           >
             <mat-label>Value</mat-label>
-            <mat-select formControlName="value" [disabled]="!form.get('column')?.value">
+            <mat-select formControlName="value">
               <mat-option *ngFor="let option of form.get('column')?.value.options" [value]="option">
                 {{ option | split | titlecase }}
               </mat-option>
