@@ -1,5 +1,5 @@
 table {
-  margin: 0 0 40px 0;
+  margin: 0;
   width: 100%;
   box-shadow: 0 1px 3px rgba(0,0,0,0.2);
   display: table;
@@ -25,5 +25,22 @@ tr {
 td,th {
   padding: 6px 12px;
   display: table-cell;
+}
+
+.no-results {
+  background: #f6f6f6;
+  color: #3b3b3b;
+  width: calc(100% - 2.2rem);
+  margin: 0 1px;
+  padding: 1rem;
+}
+
+.loading {
+  width: 100%;
+  padding-top: 200px;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  flex-direction: column;
 }
  

@@ -1,5 +1,5 @@
 import { Injectable } from '@angular/core';
-import { BehaviorSubject, Observable } from 'rxjs';
+import { BehaviorSubject, delay, Observable } from 'rxjs';
 import * as moment from 'moment';
 import { Project, ProjectField } from '../interfaces/project';
 import { Operator, ProjectFilter } from '../interfaces/project-filter';
@@ -13,14 +13,16 @@ export class ProjectService {
   private projects$ = new BehaviorSubject<Project[]>(mockData);
 
   getProjects(): Observable<Project[]> {
-    return this.projects$.asObservable();
+    // Delaying response to simulate http call
+    return this.projects$.pipe(delay(800));
   }
 
-  updateFilters(filters: Map<ProjectField, ProjectFilter>) {
+  updateFilters(filters: ProjectFilter[]) {
     let projects = [...mockData];
-    for (const filter of filters.values()) {
+    for (const filter of filters) {
       projects = this.filterProjects(filter, projects);
     }
+  
     this.projects$.next(projects);
   }
 
@@ -32,7 +34,7 @@ export class ProjectService {
         case Operator.Equals:
           if (typeof project[field] === 'string') {
             const projectField: string = project[field] as string;
-            return projectField.match(new RegExp(String(values[0]), 'i'));
+            return projectField.toLowerCase() === values[0].toString().toLowerCase();
           } else {
             return project[field] === values[0];
           }

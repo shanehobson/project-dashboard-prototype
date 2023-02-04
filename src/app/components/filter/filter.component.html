@@ -21,11 +21,10 @@
       </mat-select>
     </mat-form-field>
 
-    <div *ngIf="form.get('operator')?.value === 'equals'">
+    <div *ngIf="form.get('operator')?.value === 'equals'" class="full-width">
       <ng-container [ngSwitch]="form.get('column')?.value.type">
         <mat-form-field
         *ngSwitchCase="'string'"
-        class="full-width"
         appearance="fill"
         >
           <mat-label>Value</mat-label>
@@ -72,6 +71,15 @@
     </mat-form-field>
 
   </form>
+
+  <button
+    class="cancel"
+    color="warn"
+    mat-button mat-raised-button
+    (click)="onCancel()"
+  >
+    Cancel
+  </button>
 
   <button
     class="submit"

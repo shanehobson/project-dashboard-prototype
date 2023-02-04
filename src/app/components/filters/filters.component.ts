@@ -1,7 +1,6 @@
-import { Component, EventEmitter, Input, OnInit, Output } from '@angular/core';
+import { Component, EventEmitter, Input, Output } from '@angular/core';
 import { MatDialog, MatDialogRef } from '@angular/material/dialog';
 import { Column } from 'src/app/interfaces/column';
-import { ProjectField } from 'src/app/interfaces/project';
 import { ProjectFilter } from 'src/app/interfaces/project-filter';
 import { FilterComponent } from '../filter/filter.component';
 
@@ -10,18 +9,15 @@ import { FilterComponent } from '../filter/filter.component';
   templateUrl: './filters.component.html',
   styleUrls: ['./filters.component.scss']
 })
-export class FiltersComponent implements OnInit {
+export class FiltersComponent  {
   @Input() columns: Column[] = [];
   @Input() loading = false;
-  @Output() updateFilters = new EventEmitter<Map<ProjectField, ProjectFilter>>();
+  @Output() updateFilters = new EventEmitter<ProjectFilter[]>();
 
-  filters = new Map<ProjectField, ProjectFilter>();
+  filters: ProjectFilter[] = [];
+  showFilters = true;
 
   constructor(public dialog: MatDialog) { }
-
-  ngOnInit(): void {
-  this.onOpenFilterDialog();
-  }
 
   onOpenFilterDialog(filter: ProjectFilter | null = null) {
     let dialogRef: MatDialogRef<FilterComponent> = this.dialog.open(FilterComponent, {
@@ -41,18 +37,23 @@ export class FiltersComponent implements OnInit {
   }
 
   onUpdateFilter(filter: ProjectFilter) {
-    this.filters.set(filter.field, filter);
+    this.filters.push(filter);
     this.updateFilters.emit(this.filters);
   }
 
-  onClearFilter(key: ProjectField) {
-    this.filters.delete(key);
+  onClearFilter(filter: ProjectFilter) {
+    this.filters = this.filters.filter(item => item !== filter);
     this.updateFilters.emit(this.filters);
   }
 
   onClearFilters() {
-    this.filters.clear();
+    this.filters =[];
     this.updateFilters.emit(this.filters);
   }
 
+  toggleShowFilters() {
+    if (!this.loading) {
+      this.showFilters = !this.showFilters;
+    }
+  }
 }

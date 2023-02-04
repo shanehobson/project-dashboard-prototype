@@ -1,6 +1,7 @@
 
-  <div *ngIf="loading, else projectsTable">
-    Loading...
+  <div *ngIf="loading, else projectsTable" class="loading">
+    <app-spinner></app-spinner>
+    Loading results...
   </div>
   <ng-template #projectsTable>
     <table>
@@ -25,6 +26,10 @@
           </ng-container>
         </td>
       </tr>
+   
     </table>
+    <div *ngIf="projects?.length === 0" class="no-results">
+      No results match your search query. Please try again.
+    </div>
   </ng-template>
 

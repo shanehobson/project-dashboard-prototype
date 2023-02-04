@@ -10,6 +10,7 @@ import { MatInputModule } from '@angular/material/input';
 import { MatDatepickerModule } from '@angular/material/datepicker';
 import { MatMomentDateModule } from "@angular/material-moment-adapter";
 import { MatButtonModule } from '@angular/material/button';
+import { MatTooltipModule } from '@angular/material/tooltip';
 
 import { AppComponent } from './app.component';
 import { ProjectDashboardTableComponent } from './components/project-dashboard-table/project-dashboard-table.component';
@@ -19,6 +20,7 @@ import { FilterComponent } from './components/filter/filter.component';
 import { FiltersComponent } from './components/filters/filters.component';
 import { FormatFilterValuesPipe } from './pipes/format-filter-values.pipe';
 import { ReactiveFormsModule } from '@angular/forms';
+import { SpinnerComponent } from './components/spinner/spinner.component';
 
 @NgModule({
   declarations: [
@@ -28,7 +30,8 @@ import { ReactiveFormsModule } from '@angular/forms';
     SplitPipe,
     FilterComponent,
     FiltersComponent,
-    FormatFilterValuesPipe
+    FormatFilterValuesPipe,
+    SpinnerComponent
   ],
   imports: [
     BrowserAnimationsModule,
@@ -42,7 +45,8 @@ import { ReactiveFormsModule } from '@angular/forms';
     MatDatepickerModule,
     ReactiveFormsModule,
     MatMomentDateModule,
-    MatButtonModule
+    MatButtonModule,
+    MatTooltipModule
   ],
   providers: [],
   bootstrap: [AppComponent],

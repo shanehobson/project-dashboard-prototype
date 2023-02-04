@@ -82,6 +82,10 @@ export class FilterComponent implements OnInit, OnDestroy {
     return true;
   }
 
+  onCancel() {
+    this.dialogRef.close(null);
+  }
+
   onSubmit() {
     let { column, operator, value, startDate, endDate } = this.form.value;
     if (startDate) {

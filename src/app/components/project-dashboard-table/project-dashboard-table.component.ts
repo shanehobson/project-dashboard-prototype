@@ -1,7 +1,7 @@
 import { Component, EventEmitter, Input, OnInit, Output } from '@angular/core';
 import { ProjectFilter } from 'src/app/interfaces/project-filter';
 import { Column } from '../../interfaces/column';
-import { Project, ProjectField } from '../../interfaces/project';
+import { Project } from '../../interfaces/project';
 
 @Component({
   selector: 'app-project-dashboard-table',
@@ -12,7 +12,7 @@ export class ProjectDashboardTableComponent implements OnInit {
   @Input() projects: Project[] | null = [];
   @Input() loading = false;
   @Input() columns: Column[] = [];
-  @Output() updateFilters = new EventEmitter<Map<ProjectField, ProjectFilter>>();
+  @Output() updateFilters = new EventEmitter<ProjectFilter[]>();
 
   constructor() { }
 

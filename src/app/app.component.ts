@@ -15,7 +15,7 @@ export class AppComponent {
     .pipe(tap(() => this.loading = false));
 
   columns: Column[] = [];
-  loading = false;
+  loading = true;
  
   constructor(private projectService: ProjectService){}
 
@@ -23,7 +23,8 @@ export class AppComponent {
     this.columns = this.projectService.getColumns();
   }
 
-  onUpdateFilters(filters: Map<ProjectField, ProjectFilter>) {
+  onUpdateFilters(filters: ProjectFilter[]) {
+    this.loading = true;
     this.projectService.updateFilters(filters);
   }
 }

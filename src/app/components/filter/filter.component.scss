@@ -18,6 +18,16 @@ form {
 
 .full-width {
   grid-column: 1 / -1;
+
+  mat-form-field {
+    width: 100%;
+  }
+}
+
+.cancel {
+  position: absolute;
+  bottom: 4rem;
+  left: 1rem;
 }
 
 .submit {
