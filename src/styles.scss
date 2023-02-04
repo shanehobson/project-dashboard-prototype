@@ -1,3 +1,82 @@
+@use '@angular/material' as mat;
+@include mat.core();
+@import '~@angular/material/theming';
+
+$orange-palette: (
+    50 : #f9e9e1,
+    100 : #efc9b5,
+    200 : #e5a584,
+    300 : #da8152,
+    400 : #d2662d,
+    500 : #ca4b08,
+    600 : #c54407,
+    700 : #bd3b06,
+    800 : #b73304,
+    900 : #ab2302,
+    A100 : #ffdad4,
+    A200 : #ffaea1,
+    A400 : #ff826e,
+    A700 : #ff6c55,
+    contrast: (
+        50 : #000000,
+        100 : #000000,
+        200 : #000000,
+        300 : #000000,
+        400 : #ffffff,
+        500 : #ffffff,
+        600 : #ffffff,
+        700 : #ffffff,
+        800 : #ffffff,
+        900 : #ffffff,
+        A100 : #000000,
+        A200 : #000000,
+        A400 : #000000,
+        A700 : #000000,
+    )
+);
+
+$red-palette: (
+    50 : #f4e7e7,
+    100 : #e4c2c4,
+    200 : #d29a9d,
+    300 : #bf7175,
+    400 : #b25258,
+    500 : #a4343a,
+    600 : #9c2f34,
+    700 : #92272c,
+    800 : #892125,
+    900 : #781518,
+    A100 : #ffaeb1,
+    A200 : #ff7b7f,
+    A400 : #ff484e,
+    A700 : #ff2f35,
+    contrast: (
+        50 : #000000,
+        100 : #000000,
+        200 : #000000,
+        300 : #000000,
+        400 : #ffffff,
+        500 : #ffffff,
+        600 : #ffffff,
+        700 : #ffffff,
+        800 : #ffffff,
+        900 : #ffffff,
+        A100 : #000000,
+        A200 : #000000,
+        A400 : #ffffff,
+        A700 : #ffffff,
+    )
+);
+
+$my-theme: mat.define-light-theme((
+ color: (
+   primary: $orange-palette,
+   accent: $red-palette,
+ ),
+ typography: mat.define-typography-config(),
+ density: 0,
+));
+
 body {
   font-family: 'Helvetica Neue', Helvetica, Arial;
   font-size: 14px;
@@ -11,3 +90,6 @@ body {
   padding: 2rem;
   max-width: 1200px;
 }
+
+@include mat.core-theme($my-theme);
+@include mat.all-component-themes($my-theme);

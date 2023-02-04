@@ -1,1 +1,85 @@
-<p>filter works!</p>
+<div>
+  <h2>{{data.filter ? 'Edit' : 'Add' }} Filter</h2>
+  <form [formGroup]="form">
+    
+    <mat-form-field appearance="fill" >
+      <mat-label>Field</mat-label>
+      <mat-select formControlName="column" [disabled]="!!data.filter">
+        <mat-option>Select</mat-option>
+        <mat-option *ngFor="let column of data.columns" [value]="column">
+          {{column.field | split | titlecase}}
+        </mat-option>
+      </mat-select>
+    </mat-form-field>
+
+    <mat-form-field appearance="fill">
+      <mat-label>Operator</mat-label>
+      <mat-select formControlName="operator" [disabled]="!form.get('column')?.value">
+        <mat-option *ngFor="let operator of getOperatorOptions()" [value]="operator">
+          {{ operator | split | titlecase }}
+        </mat-option>
+      </mat-select>
+    </mat-form-field>
+
+    <div *ngIf="form.get('operator')?.value === 'equals'">
+      <ng-container [ngSwitch]="form.get('column')?.value.type">
+        <mat-form-field
+        *ngSwitchCase="'string'"
+        class="full-width"
+        appearance="fill"
+        >
+          <mat-label>Value</mat-label>
+          <input matInput formControlName="value">
+        </mat-form-field>
+
+        <mat-form-field
+          *ngSwitchCase="'number'"
+          class="full-width"
+          appearance="fill"
+          >
+            <mat-label>Value</mat-label>
+            <input matInput formControlName="value" type="number">
+        </mat-form-field>
+
+        <mat-form-field
+          *ngSwitchCase="'select'"
+          class="full-width"
+          appearance="fill"
+          >
+            <mat-label>Value</mat-label>
+            <mat-select formControlName="value" [disabled]="!form.get('column')?.value">
+              <mat-option *ngFor="let option of form.get('column')?.value.options" [value]="option">
+                {{ option | split | titlecase }}
+              </mat-option>
+            </mat-select>
+        </mat-form-field>
+      </ng-container>
+    </div>
+    
+    <mat-form-field
+      *ngIf="form.get('operator')?.value === 'between'"
+      class="full-width"
+      appearance="fill"
+      >
+      <mat-label>Enter a date range</mat-label>
+      <mat-date-range-input [rangePicker]="picker">
+        <input matStartDate formControlName="startDate" placeholder="Start date">
+        <input matEndDate formControlName="endDate" placeholder="End date">
+      </mat-date-range-input>
+      <mat-hint>MM/DD/YYYY – MM/DD/YYYY</mat-hint>
+      <mat-datepicker-toggle matIconSuffix [for]="picker"></mat-datepicker-toggle>
+      <mat-date-range-picker #picker></mat-date-range-picker>
+    </mat-form-field>
+
+  </form>
+
+  <button
+    class="submit"
+    mat-button mat-raised-button
+    color="warn"
+    [disabled]="disabled"
+    (click)="onSubmit()"
+  >
+    Submit
+  </button>
+</div>

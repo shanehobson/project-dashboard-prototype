@@ -1,6 +1,9 @@
-import { Component, EventEmitter, OnInit, Output } from '@angular/core';
+import { Component, EventEmitter, Input, OnInit, Output } from '@angular/core';
+import { MatDialog, MatDialogRef } from '@angular/material/dialog';
+import { Column } from 'src/app/interfaces/column';
 import { ProjectField } from 'src/app/interfaces/project';
-import { Operator, ProjectFilter } from 'src/app/interfaces/project-filter';
+import { ProjectFilter } from 'src/app/interfaces/project-filter';
+import { FilterComponent } from '../filter/filter.component';
 
 @Component({
   selector: 'app-filters',
@@ -8,46 +11,46 @@ import { Operator, ProjectFilter } from 'src/app/interfaces/project-filter';
   styleUrls: ['./filters.component.scss']
 })
 export class FiltersComponent implements OnInit {
+  @Input() columns: Column[] = [];
+  @Input() loading = false;
   @Output() updateFilters = new EventEmitter<Map<ProjectField, ProjectFilter>>();
 
   filters = new Map<ProjectField, ProjectFilter>();
 
-  constructor() { }
+  constructor(public dialog: MatDialog) { }
 
   ngOnInit(): void {
-    this.filters.set('title', {
-      field: 'title',
-      operator: Operator.Equals,
-      values: ['Tagtune']
-    })
-    this.filters.set('project_owner', {
-      field: 'project_owner',
-      operator: Operator.Equals,
-      values: ['Kevin Snyder']
-    })
-    this.filters.set('created', {
-      field: 'created',
-      operator: Operator.Between,
-      values: ['08/31/2013', '10/31/2015']
-    }),
-    this.filters.set('modified', {
-      field: 'created',
-      operator: Operator.Between,
-      values: ['08/31/2013', '10/31/2015']
-    })
+  this.onOpenFilterDialog();
   }
 
-  updateFilter(filter: ProjectFilter) {
+  onOpenFilterDialog(filter: ProjectFilter | null = null) {
+    let dialogRef: MatDialogRef<FilterComponent> = this.dialog.open(FilterComponent, {
+      height: '370px',
+      width: '500px',
+      data: {
+        columns: this.columns,
+        filter
+      }
+    });
+
+    dialogRef.afterClosed().subscribe((filter: ProjectFilter) => {
+      if (filter) {
+        this.onUpdateFilter(filter);
+      }
+    });
+  }
+
+  onUpdateFilter(filter: ProjectFilter) {
     this.filters.set(filter.field, filter);
     this.updateFilters.emit(this.filters);
   }
 
-  clearFilter(key: ProjectField) {
+  onClearFilter(key: ProjectField) {
     this.filters.delete(key);
     this.updateFilters.emit(this.filters);
   }
 
-  clearFilters() {
+  onClearFilters() {
     this.filters.clear();
     this.updateFilters.emit(this.filters);
   }

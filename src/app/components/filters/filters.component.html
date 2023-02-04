@@ -1,6 +1,6 @@
 <div class="filters">
   <div *ngFor="let filter of filters.values()" class="filter">
-    <mat-chip disabled>
+    <mat-chip disableRipple (click)="onOpenFilterDialog(filter)">
       <span class="field">
         {{filter.field | split | titlecase}}
       </span>
@@ -10,21 +10,19 @@
       <span class="values">
         {{filter.values | formatFilterValues}}
       </span>
-      <span
-        matChipRemove 
-        [attr.aria-label]="'remove ' + filter.field"
-        (click)="clearFilter(filter.field)">
+      <span class="remove" [attr.aria-label]="'remove ' + filter.field"
+            (click)="onClearFilter(filter.field)">
           <mat-icon>cancel</mat-icon>
-    </span>
+      </span>
     </mat-chip>
   </div>
   <div class="filter">
-    <mat-chip disabled class="add">
+    <mat-chip disableRipple class="add" (click)="onOpenFilterDialog()">
       <mat-icon>add</mat-icon>
     </mat-chip>
   </div>
   <div *ngIf="filters.size > 0" class="filter">
-    <mat-chip disabled class="clear" (click)="clearFilters()">
+    <mat-chip disableRipple class="clear" (click)="onClearFilters()">
       Clear
     </mat-chip>
   </div>
