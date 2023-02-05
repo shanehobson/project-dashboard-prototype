@@ -112,11 +112,11 @@ export class ProjectDashboardTableComponent implements OnInit, OnChanges, OnDest
   }
 
   displaySuccessNotification() {
-    let message = 'Successfully saved project. The following fields were updated: ';
+    let message = `Success! Updated field${this.fieldsUpdated.size !== 1 ? 's' : ''}: `;
     for (const field of this.fieldsUpdated.keys()) {
       message += field + ', '
     }
-    message = message.slice(0, message.length - 2);
+    message = message.slice(0, message.length - 2) + '.';
     this.openSnackBar(message, 'Dismiss')
   }
 
