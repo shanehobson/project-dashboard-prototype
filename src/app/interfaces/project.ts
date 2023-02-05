@@ -12,11 +12,11 @@ export interface Project {
 export type ProjectField = keyof Project;
 
 export enum Division {
-  Accounting = 'accounting',
-  Administration = 'administration',
-  Marketing = 'marketing',
-  Production = 'production',
-  Sales = 'sales'
+  Accounting = 'Accounting',
+  Administration = 'Administration',
+  Marketing = 'Marketing',
+  Production = 'Production',
+  Sales = 'Sales'
 }
 
 export enum ProjectStatus {

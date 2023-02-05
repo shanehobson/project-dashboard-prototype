@@ -20,20 +20,6 @@ tr {
     color: #ffffff;
     background:  #CA4B08;
   }
-
-  &.selected {
-    background-color: lighten(#CA4B08, 30);
-  }
-
-  &.success {
-    background-color: lighten(#27ae60, 30);
-  }
-
-  span.success {
-    padding-left: 0;
-    padding-right: 0;
-    font-size: 0.8rem;
-  }
 }
  
 td,th {
@@ -47,6 +33,15 @@ td {
   }
 }
 
+td.updated {
+  color: #CA4B08;
+}
+
+td.select {
+ width: .5rem;
+ padding-right: .3rem;
+}
+
 td.edit {
   display: flex;
   justify-content: center;
@@ -58,19 +53,12 @@ td.edit {
     width: 24px;
   }
 
-  mat-icon.save {
-    color: #CA4B08;
+  mat-icon.save, mat-icon.saved {
+    color: lighten(#CA4B08, 5);
   }
 
   mat-icon.disabled {
     color: #d3d3d3;
-  }
-
-  mat-icon.success {
-    color: #27ae60;
-    font-size: 34px;
-    height: 34px;
-    width: 34px;
   }
 }
 
@@ -94,5 +82,13 @@ td.edit {
 mat-paginator {
   width: (calc(100% - .2rem));
   margin: 0 .1rem;
+}
+
+.budget {
+  display: flex;
+
+  span {
+    padding-right: 4px;
+  }
 }
  

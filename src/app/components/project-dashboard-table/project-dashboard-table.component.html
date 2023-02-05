@@ -1,19 +1,31 @@
 
   <div *ngIf="loading, else projectsTable" class="loading">
     <app-spinner></app-spinner>
-    Loading results...
+    {{ projectBeingSaved ? 'Saving project...' : 'Loading results...'}}
   </div>
+
   <ng-template #projectsTable>
     <table>
       <tr class="header">
-        <th *ngFor="let column of columns">{{column.field | split | titlecase}}</th>
         <th></th>
+        <th *ngFor="let column of columns">{{column.field | split | titlecase}}</th>
+        <th>Actions</th>
       </tr>
       <tr
-        *ngFor="let project of projects" [ngClass]="selectedProject === project ? 'selected' : ''"
-        [ngClass]="successAnimationId === project.id ? 'success' : ''"
-        >
-        <ng-container [formGroup]="form" *ngIf="project === selectedProject else row">
+        *ngFor="let project of projects"
+        [ngClass]="selectedProject?.id === project?.id  ? 'selected' : ''"
+      >
+        <td class="select">
+          <mat-radio-button
+            color="warn"
+            (click)="onSelectProject(project)"
+            [value]="project"
+            [checked]="selectedProject?.id === project?.id"
+            >
+          </mat-radio-button>
+        </td>
+
+        <ng-container [formGroup]="form" *ngIf="project?.id === selectedProject?.id else row">
           <td *ngFor="let column of columns">
             <ng-container [ngSwitch]="column.field">
               <span *ngSwitchCase="'title'">
@@ -32,8 +44,8 @@
               <span *ngSwitchCase="'project_owner'">
                 <input formControlName="project_owner">
               </span>
-              <span *ngSwitchCase="'budget'">
-                <input formControlName="budget" type="number">
+              <span *ngSwitchCase="'budget'" class="budget">
+                <span>$</span><input formControlName="budget" type="number">
               </span>
               <span *ngSwitchCase="'status'">
                 <select formControlName="status">
@@ -57,8 +69,14 @@
             </ng-container>
           </td>
         </ng-container>
+
         <ng-template #row>
-          <td *ngFor="let column of columns">
+          <td
+            *ngFor="let column of columns"
+            [ngClass]="
+              fieldWasUpdated(column.field, project)
+                ? 'updated' : ''
+            ">
             <ng-container [ngSwitch]="column.field">
               <span *ngSwitchCase="'created'">
                 {{ project[column.field] | date }}
@@ -75,23 +93,11 @@
             </ng-container>
           </td>
         </ng-template>
+
         <td
           class="edit"
-          (click)="onSelectProject(project)"
           >
-          <ng-container *ngIf="selectedProject !== project; else saveProject">
-            <span *ngIf="successAnimationId === project.id; else editRow" class="success">
-              Saved!
-            </span>
-            <ng-template #editRow>
-              <img
-                src="../../../assets/icons/edit.png"
-                matTooltip="Edit Row"
-                aria-label="Edit Row"
-              >
-            </ng-template>
-          </ng-container>
-          <ng-template #saveProject>
+          <ng-container *ngIf="selectedProject?.id === project?.id">
             <mat-icon 
               class="save"
               (click)="onSaveProject()"
@@ -100,12 +106,19 @@
               aria-label="Save Changes">
               save
             </mat-icon>
-          </ng-template>
-        
+          </ng-container>
+          <ng-container *ngIf="projectLastSaved?.id === project?.id">
+            <mat-icon
+              class="saved"
+              matTooltip="Project Saved"
+              aria-label="Project Saved">
+              check
+            </mat-icon>
+          </ng-container>
         </td>
       </tr>
-   
     </table>
+
     <mat-paginator
       *ngIf="pagination && projects && projects.length > 0"
       [length]="pagination.length"

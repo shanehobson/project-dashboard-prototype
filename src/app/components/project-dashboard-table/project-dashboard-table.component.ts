@@ -1,10 +1,11 @@
 import { Component, EventEmitter, Input,  OnChanges,  OnDestroy,  OnInit,  Output, SimpleChanges } from '@angular/core';
 import { FormBuilder, FormControl, FormGroup } from '@angular/forms';
 import { PageEvent } from '@angular/material/paginator';
+import { MatSnackBar } from '@angular/material/snack-bar';
 import * as moment from 'moment';
 import { Subject, takeUntil } from 'rxjs';
 import { Column } from '../../interfaces/column';
-import { Project } from '../../interfaces/project';
+import { Project, ProjectField } from '../../interfaces/project';
 
 @Component({
   selector: 'app-project-dashboard-table',
@@ -21,8 +22,9 @@ export class ProjectDashboardTableComponent implements OnInit, OnChanges, OnDest
 
   selectedProject: Project | null = null;
   projectBeingSaved: Project | null = null;
+  projectLastSaved: Project | null = null;
+  fieldsUpdated = new Map<string, boolean>;
   changesPending = false;
-  successAnimationId: string = '';
 
   form: FormGroup = this.fb.group({
     title: new FormControl(null),
@@ -33,10 +35,13 @@ export class ProjectDashboardTableComponent implements OnInit, OnChanges, OnDest
   });
 
   pageSizeOptions = [ 5, 10, 20 ];
+  timerId: NodeJS.Timeout | undefined = undefined;
 
   private unsubscribe$ = new Subject();
 
-  constructor(private fb: FormBuilder) { }
+  constructor(
+    private fb: FormBuilder,
+    private _snackBar: MatSnackBar){ }
 
   ngOnInit() {
     this.form.valueChanges.pipe(
@@ -47,28 +52,29 @@ export class ProjectDashboardTableComponent implements OnInit, OnChanges, OnDest
   }
 
   ngOnChanges(changes: SimpleChanges) {
-    if (changes['projects'] && this.projectBeingSaved) {
-      this.showSuccessAnimation(this.projectBeingSaved);
+    if (changes['projects']) {
+      if (this.projectBeingSaved) {
+        this.displaySuccessNotification();
+      }
+      this.projectLastSaved = this.projectBeingSaved;
       this.projectBeingSaved = null;
+      this.selectedProject = null;
     }
   }
 
-  showSuccessAnimation(project: Project) {
-    this.successAnimationId = project.id;
-    setTimeout(() => {
-      this.successAnimationId = '';
-    }, 4000)
-  }
-
   onPaginatorEvent(event: PageEvent) {
+    this.projectLastSaved = null;
+    this.fieldsUpdated.clear();
     this.updatePagination.emit(event);
   }
 
   onSelectProject(project: Project) {
     this.selectedProject = project;
+    this.projectLastSaved = null;
+    this.fieldsUpdated.clear();
     this.form.patchValue({
       title: project.title,
-      division: project.division.toLowerCase(),
+      division: project.division,
       project_owner: project.project_owner,
       budget: project.budget,
       status: project.status
@@ -91,11 +97,38 @@ export class ProjectDashboardTableComponent implements OnInit, OnChanges, OnDest
       created: this.selectedProject?.created as string,
       modified: moment(Date.now()).format('MM/DD/YYYY')
     }
-    this.form.reset();
-    this.selectedProject = null;
+    this.fieldsUpdated.clear();
+    const projectFields: ProjectField[] = [ 'title', 'division', 'project_owner', 'budget', 'status'];
+    for (const field of projectFields) {
+      if (String(project[field]) !== String(this.selectedProject![field])) {
+        this.fieldsUpdated.set(field, true);
+      }
+    }
     this.changesPending = false;
+    this.selectedProject = null;
+    this.form.reset();
     this.projectBeingSaved = project;
     this.updateProject.emit(project);
+  }
+
+  displaySuccessNotification() {
+    let message = 'Successfully saved project. The following fields were updated: ';
+    for (const field of this.fieldsUpdated.keys()) {
+      message += field + ', '
+    }
+    message = message.slice(0, message.length - 2);
+    this.openSnackBar(message, 'Dismiss')
+  }
+
+  openSnackBar(message: string, action: string) {
+    this._snackBar.open(message, action);
+    setTimeout(() => {
+      this._snackBar.dismiss();
+    }, 7000)
+  }
+
+  fieldWasUpdated(field: ProjectField, project: Project): boolean {
+    return this.fieldsUpdated.has(field) && this.projectLastSaved?.id === project.id;
   }
 
   ngOnDestroy() {

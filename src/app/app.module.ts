@@ -1,6 +1,7 @@
 import { NgModule } from '@angular/core';
 import { BrowserModule } from '@angular/platform-browser';
 import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
+import { FormsModule } from '@angular/forms';
 import { MatChipsModule } from '@angular/material/chips';
 import { MatIconModule } from '@angular/material/icon';
 import { MatDialogModule } from '@angular/material/dialog';
@@ -12,6 +13,9 @@ import { MatMomentDateModule } from "@angular/material-moment-adapter";
 import { MatButtonModule } from '@angular/material/button';
 import { MatTooltipModule } from '@angular/material/tooltip';
 import { MatPaginatorModule } from '@angular/material/paginator';
+import { MatCheckboxModule } from '@angular/material/checkbox';
+import { MatRadioModule } from '@angular/material/radio';
+import { MatSnackBarModule } from '@angular/material/snack-bar';
 
 import { AppComponent } from './app.component';
 import { ProjectDashboardTableComponent } from './components/project-dashboard-table/project-dashboard-table.component';
@@ -37,6 +41,7 @@ import { SpinnerComponent } from './components/spinner/spinner.component';
   imports: [
     BrowserAnimationsModule,
     BrowserModule,
+    FormsModule,
     MatChipsModule,
     MatIconModule,
     MatDialogModule,
@@ -48,7 +53,10 @@ import { SpinnerComponent } from './components/spinner/spinner.component';
     MatMomentDateModule,
     MatButtonModule,
     MatTooltipModule,
-    MatPaginatorModule
+    MatPaginatorModule,
+    MatCheckboxModule,
+    MatRadioModule,
+    MatSnackBarModule
   ],
   providers: [],
   bootstrap: [AppComponent],
