@@ -1,8 +1,8 @@
-import { Component, OnInit } from '@angular/core';
+import { Component } from '@angular/core';
 import { PageEvent } from '@angular/material/paginator';
-import { take, tap } from 'rxjs';
+import {  tap } from 'rxjs';
 import { Column } from './interfaces/column';
-import { Project, ProjectField } from './interfaces/project';
+import { Project } from './interfaces/project';
 import { ProjectFilter } from './interfaces/project-filter';
 import { ProjectService } from './services/project.service';
 

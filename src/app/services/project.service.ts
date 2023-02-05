@@ -2,11 +2,11 @@ import { Injectable } from '@angular/core';
 import { BehaviorSubject, delay, map, Observable, take } from 'rxjs';
 import * as moment from 'moment';
 import * as uuid from 'uuid';
+import { PageEvent } from '@angular/material/paginator';
 import { Project} from '../interfaces/project';
 import { Operator, ProjectFilter } from '../interfaces/project-filter';
 import mockData from '../data/mock-data.json';
 import { Column, columns } from '../interfaces/column';
-import { PageEvent } from '@angular/material/paginator';
 
 @Injectable({
   providedIn: 'root'
@@ -29,7 +29,8 @@ export class ProjectService {
       return this.allProjects;
     }
     const projects: Project[] = mockData.map((project: Project) => {
-      return { ...project, id: uuid.v4() } // adding uuid in order to identify projects when updating
+      // adding uuid in order to identify projects when updating
+      return { ...project, id: uuid.v4() }
     });
     this.allProjects = projects;
     return projects;
@@ -59,8 +60,8 @@ export class ProjectService {
   filterProjects(filter: ProjectFilter, projects: Project[]): Project[] {
     return projects.filter(project => {
       const { field, operator, values } = filter;
-      switch (operator) {
 
+      switch (operator) {
         case Operator.Equals:
           if (typeof project[field] === 'string') {
             const projectField: string = project[field] as string;
@@ -69,7 +70,6 @@ export class ProjectService {
             return project[field] === values[0];
           }
    
-
         case Operator.Between:
           const [start, end] = values
           .slice(0, 2)
@@ -82,10 +82,6 @@ export class ProjectService {
             throw new Error(`Operator ${operator} does not exist.`);
       }
     });
-  }
-
-  getColumns(): Column[] {
-    return columns;
   }
 
   updatePagination(event: PageEvent) {
@@ -114,5 +110,9 @@ export class ProjectService {
       return project;
     });
     this.updateFilters(this.lastAppliedFilters);
+  }
+
+  getColumns(): Column[] {
+    return columns;
   }
 }

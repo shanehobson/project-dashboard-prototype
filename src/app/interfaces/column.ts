@@ -59,4 +59,4 @@ export const columns: Column[] = [
     operator: Operator.Between,
     type: 'date'
   }
-]
+];
