@@ -5,7 +5,7 @@
   min-height: 370px;
 }
 
-h2 {
+h2.title {
   margin: .5rem auto 2rem auto;
   text-align: center;
 }
@@ -16,7 +16,7 @@ form {
   grid-gap: 1rem;
 }
 
-.full-width {
+div.full-width {
   grid-column: 1 / -1;
 
   mat-form-field {
@@ -24,19 +24,19 @@ form {
   }
 }
 
-.cancel {
+button {
+  background-color: #CA4B08;
+  color: #ffffff;
+}
+
+button.cancel {
   position: absolute;
   bottom: 4rem;
   left: 1rem;
 }
 
-.submit {
+button.submit {
   position: absolute;
   bottom: 4rem;
   right: 1rem;
-}
-
-button {
-  background-color: #CA4B08;
-  color: #ffffff;
 }

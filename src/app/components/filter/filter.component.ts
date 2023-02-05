@@ -45,19 +45,19 @@ export class FilterComponent implements OnInit, OnDestroy {
     });
 
     this.form.get('operator')!.valueChanges
-    .pipe(
-      takeUntil(this.unsubscribe$))
-    .subscribe((operator) => {
-      if (operator) {
-        this.form.get('value')?.enable();
-      } else {
-        this.form.get('value')?.disable();
-      }
-    });
+      .pipe(
+        takeUntil(this.unsubscribe$)
+      )
+      .subscribe((operator) => {
+        if (operator) {
+          this.form.get('value')?.enable();
+        } else {
+          this.form.get('value')?.disable();
+        }
+      });
   }
 
   getOperatorOptions(): string[] {
-    // @todo: Enable multiple operators per field.
     const column = this.form.get('column')?.value;
     if (!column) {
       return [];
@@ -97,5 +97,4 @@ export class FilterComponent implements OnInit, OnDestroy {
     this.unsubscribe$.next(null);
     this.unsubscribe$.complete();
   }
-
 }

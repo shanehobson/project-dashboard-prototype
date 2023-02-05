@@ -1,7 +1,7 @@
 <div>
-  <h2>Add Filter</h2>
+  <h2 class="title">Add Filter</h2>
+
   <form [formGroup]="form">
-    
     <mat-form-field appearance="fill" >
       <mat-label>Field</mat-label>
       <mat-select formControlName="column">
@@ -28,7 +28,7 @@
         appearance="fill"
         >
           <mat-label>Value</mat-label>
-          <input matInput formControlName="value">
+          <input matInput formControlName="value" (keyup.enter)="onSubmit()">
         </mat-form-field>
 
         <mat-form-field
@@ -37,7 +37,7 @@
           appearance="fill"
           >
             <mat-label>Value</mat-label>
-            <input matInput formControlName="value" type="number">
+            <input matInput formControlName="value" type="number" (keyup.enter)="onSubmit()">
         </mat-form-field>
 
         <mat-form-field
@@ -46,7 +46,7 @@
           appearance="fill"
           >
             <mat-label>Value</mat-label>
-            <mat-select formControlName="value">
+            <mat-select formControlName="value" (keyup.enter)="onSubmit()">
               <mat-option *ngFor="let option of form.get('column')?.value.options" [value]="option">
                 {{ option | split | titlecase }}
               </mat-option>

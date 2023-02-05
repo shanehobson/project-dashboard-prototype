@@ -73,10 +73,8 @@
         <ng-template #row>
           <td
             *ngFor="let column of columns"
-            [ngClass]="
-              fieldWasUpdated(column.field, project)
-                ? 'updated' : ''
-            ">
+            [ngClass]="fieldWasUpdated(project, column.field) ? 'updated' : ''"
+          >
             <ng-container [ngSwitch]="column.field">
               <span *ngSwitchCase="'created'">
                 {{ project[column.field] | date }}
@@ -129,6 +127,7 @@
       (page)="onPaginatorEvent($event)"
       >
     </mat-paginator>
+    
     <div *ngIf="projects?.length === 0" class="no-results">
       No results match your search query. Please try again.
     </div>

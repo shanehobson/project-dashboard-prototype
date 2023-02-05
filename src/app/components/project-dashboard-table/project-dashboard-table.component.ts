@@ -25,6 +25,8 @@ export class ProjectDashboardTableComponent implements OnInit, OnChanges, OnDest
   projectLastSaved: Project | null = null;
   fieldsUpdated = new Map<string, boolean>;
   changesPending = false;
+  pageSizeOptions = [ 5, 10, 20 ];
+  timerId: NodeJS.Timeout | undefined = undefined;
 
   form: FormGroup = this.fb.group({
     title: new FormControl(null),
@@ -33,9 +35,6 @@ export class ProjectDashboardTableComponent implements OnInit, OnChanges, OnDest
     budget: new FormControl(null),
     status: new FormControl(null),
   });
-
-  pageSizeOptions = [ 5, 10, 20 ];
-  timerId: NodeJS.Timeout | undefined = undefined;
 
   private unsubscribe$ = new Subject();
 
@@ -86,6 +85,7 @@ export class ProjectDashboardTableComponent implements OnInit, OnChanges, OnDest
     if (!this.changesPending) {
       return;
     }
+
     const { title, division, project_owner, budget, status } = this.form.value;
     const project: Project = {
       id: this.selectedProject?.id as string,
@@ -97,17 +97,19 @@ export class ProjectDashboardTableComponent implements OnInit, OnChanges, OnDest
       created: this.selectedProject?.created as string,
       modified: moment(Date.now()).format('MM/DD/YYYY')
     }
+
     this.fieldsUpdated.clear();
     const projectFields: ProjectField[] = [ 'title', 'division', 'project_owner', 'budget', 'status'];
     for (const field of projectFields) {
-      if (String(project[field]) !== String(this.selectedProject![field])) {
+      if (project[field] !== this.selectedProject![field]) {
         this.fieldsUpdated.set(field, true);
       }
     }
+
     this.changesPending = false;
     this.selectedProject = null;
-    this.form.reset();
     this.projectBeingSaved = project;
+    this.form.reset();
     this.updateProject.emit(project);
   }
 
@@ -117,17 +119,17 @@ export class ProjectDashboardTableComponent implements OnInit, OnChanges, OnDest
       message += field + ', '
     }
     message = message.slice(0, message.length - 2) + '.';
-    this.openSnackBar(message, 'Dismiss')
+    this.openSnackBar(message, 'Dismiss', 7000)
   }
 
-  openSnackBar(message: string, action: string) {
+  openSnackBar(message: string, action: string, timeout: number) {
     this._snackBar.open(message, action);
     setTimeout(() => {
       this._snackBar.dismiss();
-    }, 7000)
+    }, timeout)
   }
 
-  fieldWasUpdated(field: ProjectField, project: Project): boolean {
+  fieldWasUpdated(project: Project, field: ProjectField): boolean {
     return this.fieldsUpdated.has(field) && this.projectLastSaved?.id === project.id;
   }
 

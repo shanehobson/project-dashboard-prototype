@@ -15,7 +15,6 @@ export class FiltersComponent  {
   @Output() updateFilters = new EventEmitter<ProjectFilter[]>();
 
   filters: ProjectFilter[] = [];
-  showFilters = true;
 
   constructor(public dialog: MatDialog) { }
 
@@ -58,11 +57,5 @@ export class FiltersComponent  {
   onClearFilters() {
     this.filters =[];
     this.updateFilters.emit(this.filters);
-  }
-
-  toggleShowFilters() {
-    if (!this.loading) {
-      this.showFilters = !this.showFilters;
-    }
   }
 }

@@ -1,4 +1,4 @@
-<div class="filters" [ngClass]="showFilters ? '' : 'hide'">
+<div class="filters">
   <div *ngFor="let filter of filters" class="filter">
     <mat-chip disableRipple [disabled]="loading">
       <span class="field">
@@ -13,7 +13,7 @@
       <span
         class="remove"
         [attr.aria-label]="'remove ' + filter.field"
-          (click)="onClearFilter(filter)">
+        (click)="onClearFilter(filter)">
           <mat-icon>cancel</mat-icon>
       </span>
     </mat-chip>
@@ -24,9 +24,7 @@
       [disabled]="loading"
       class="add"
       (click)="onOpenFilterDialog()"
-      matTooltip="Add filter"
-      aria-label="Add filter"
-      >
+      >Add Filter
       <mat-icon>add</mat-icon>
     </mat-chip>
   </div>
@@ -42,10 +40,4 @@
       Clear
     </mat-chip>
   </div>
-</div>
-<div class="toggle" [ngClass]="loading ? 'disabled' : ''" (click)="toggleShowFilters()">
-  <mat-icon>
-    {{ showFilters ? 'keyboard_arrow_down' : 'keyboard_arrow_up' }}
-  </mat-icon>
-  <span>Filters</span>
 </div>

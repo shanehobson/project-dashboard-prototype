@@ -8,85 +8,60 @@
   padding-top: 0.8rem;
   padding-bottom: 0.8rem;
   width: 90%;
-}
 
-.filter {
-  padding: .1rem 1rem .6rem 0;
-
-  .operator {
-    opacity: 0.7;
-  }
-
-  .field, .values {
-    font-weight: bold;
-  }
-
-  span {
-    padding-left: .3rem;
-  }
-
-  span.remove {
-    padding-top: .2rem;
-    padding-left: .5rem;
-    cursor: pointer;
-  }
-
-  mat-chip {
-    display: flex;
-    justify-content: center;
-    align-items: center;
-    border: 1px solid #ffffff;
-    border-radius: 20px;
-    padding: .1rem .6rem;
-    background-color: transparent !important;
-    color: #ffffff !important;
-
-    mat-icon {
+  .filter {
+    padding: .1rem 1rem .6rem 0;
+  
+    .operator {
+      opacity: 0.7;
+    }
+  
+    .field, .values {
+      font-weight: bold;
+    }
+  
+    span {
+      padding-left: .3rem;
+    }
+  
+    span.remove {
+      padding-top: .2rem;
+      padding-left: .5rem;
+      cursor: pointer;
+    }
+  
+    mat-chip {
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      border: 1px solid #ffffff;
+      border-radius: 20px;
+      padding: .1rem .6rem;
+      background-color: transparent !important;
       color: #ffffff !important;
+  
+      mat-icon {
+        color: #ffffff !important;
+      }
+    }
+  
+    mat-chip.add {
+      height: 2rem;
+      padding-left: 1rem;
+      cursor: pointer;
+  
+      mat-icon {
+       padding-left: .2rem;
+       padding-bottom: .2rem;
+      }
+    }
+  
+    mat-chip.clear {
+      height: 1.9rem;
+      cursor: pointer;
+      font-size: 16px;
+      font-weight: bold;
+      padding: .2rem .8rem;
     }
   }
-
-  mat-chip.add {
-    height: 2rem;
-    cursor: pointer;
-
-    mat-icon {
-      transform: scale(1.4);
-    }
-  }
-
-  mat-chip.clear {
-    height: 1.9rem;
-    cursor: pointer;
-    font-size: 16px;
-    font-weight: bold;
-    padding: .2rem .8rem;
-  }
-}
-
-.toggle {
-  display: flex;
-  align-items: center;
-  position: absolute;
-  right: 0;
-  top: calc(50% - 1rem);
-  font-size: 1.1rem;
-  cursor: pointer;
-
-  span {
-    padding: .5rem 0 0 .5rem;
-  }
-
-  mat-icon {
-    font-size: 2rem;
-  }
-}
-
-.hide {
-  visibility: hidden;
-}
-
-.disabled {
-  cursor: not-allowed;
-  opacity: 0.7;
 }

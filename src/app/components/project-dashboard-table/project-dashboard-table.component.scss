@@ -5,60 +5,57 @@ table {
   display: table;
   font-weight: 400;
   color: #3b3b3b;
-}
+
+  tr {
+    display: table-row;
+    background: #f6f6f6;
+    
+    &:nth-of-type(odd) {
+      background: #e9e9e9;
+    }
   
-tr {
-  display: table-row;
-  background: #f6f6f6;
+    &.header {
+      font-weight: 900;
+      color: #ffffff;
+      background:  #CA4B08;
+    }
+  }
+   
+  td,th {
+    padding: 6px 12px;
+    display: table-cell;
+  }
   
-  &:nth-of-type(odd) {
-    background: #e9e9e9;
+  td.updated {
+    color: #CA4B08;
   }
-
-  &.header {
-    font-weight: 900;
-    color: #ffffff;
-    background:  #CA4B08;
+  
+  td.select {
+   width: .5rem;
+   padding-right: .3rem;
   }
-}
- 
-td,th {
-  padding: 6px 12px;
-  display: table-cell;
-}
+  
+  td.edit {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    cursor: pointer;
+  
+    mat-icon.save, mat-icon.saved {
+      color: lighten(#CA4B08, 5);
+    }
+  
+    mat-icon.disabled {
+      color: #d3d3d3;
+    }
+  }  
 
-td {
-  input {
-    display: block;
-  }
-}
-
-td.updated {
-  color: #CA4B08;
-}
-
-td.select {
- width: .5rem;
- padding-right: .3rem;
-}
-
-td.edit {
-  display: flex;
-  justify-content: center;
-  align-items: center;
-  cursor: pointer;
-
-  img {
-    height: 24px;
-    width: 24px;
-  }
-
-  mat-icon.save, mat-icon.saved {
-    color: lighten(#CA4B08, 5);
-  }
-
-  mat-icon.disabled {
-    color: #d3d3d3;
+  .budget {
+    display: flex;
+  
+    span {
+      padding-right: 4px;
+    }
   }
 }
 
@@ -82,13 +79,5 @@ td.edit {
 mat-paginator {
   width: (calc(100% - .2rem));
   margin: 0 .1rem;
-}
-
-.budget {
-  display: flex;
-
-  span {
-    padding-right: 4px;
-  }
 }
  
