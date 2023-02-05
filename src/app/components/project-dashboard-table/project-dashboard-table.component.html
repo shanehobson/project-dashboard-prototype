@@ -9,7 +9,7 @@
       <tr class="header">
         <th></th>
         <th *ngFor="let column of columns">{{column.field | split | titlecase}}</th>
-        <th>Actions</th>
+        <th>Update</th>
       </tr>
       <tr
         *ngFor="let project of projects"
@@ -92,9 +92,7 @@
           </td>
         </ng-template>
 
-        <td
-          class="edit"
-          >
+        <td class="actions">
           <ng-container *ngIf="selectedProject?.id === project?.id">
             <mat-icon 
               class="save"
@@ -127,7 +125,7 @@
       (page)="onPaginatorEvent($event)"
       >
     </mat-paginator>
-    
+
     <div *ngIf="projects?.length === 0" class="no-results">
       No results match your search query. Please try again.
     </div>

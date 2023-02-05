@@ -26,6 +26,8 @@ import { FiltersComponent } from './components/filters/filters.component';
 import { FormatFilterValuesPipe } from './pipes/format-filter-values.pipe';
 import { ReactiveFormsModule } from '@angular/forms';
 import { SpinnerComponent } from './components/spinner/spinner.component';
+import { NavbarComponent } from './components/navbar/navbar.component';
+import { UnderConstructionComponent } from './components/under-construction/under-construction.component';
 
 @NgModule({
   declarations: [
@@ -36,7 +38,9 @@ import { SpinnerComponent } from './components/spinner/spinner.component';
     FilterComponent,
     FiltersComponent,
     FormatFilterValuesPipe,
-    SpinnerComponent
+    SpinnerComponent,
+    NavbarComponent,
+    UnderConstructionComponent
   ],
   imports: [
     BrowserAnimationsModule,
@@ -60,6 +64,6 @@ import { SpinnerComponent } from './components/spinner/spinner.component';
   ],
   providers: [],
   bootstrap: [AppComponent],
-  entryComponents: [FilterComponent]
+  entryComponents: [FilterComponent, UnderConstructionComponent]
 })
 export class AppModule { }

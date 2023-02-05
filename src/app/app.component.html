@@ -1,5 +1,8 @@
 <div class="container">
-  <h1>Project Dashboard</h1>
+  <div class="header">
+    <h1>Project Dashboard</h1>
+    <app-navbar [selectedProject]="selectedProject" [loading]="loading"></app-navbar>
+  </div>
   <hr>
   <!-- <app-project-dashboard-metadata></app-project-dashboard-metadata> -->
   <app-filters
@@ -14,6 +17,7 @@
     [pagination]="pagination"
     (updatePagination)="onUpdatePagination($event)"
     (updateProject)="onUpdateProject($event)"
+    (selectProject)="onSelectProject($event)"
     >
   </app-project-dashboard-table>
 </div>

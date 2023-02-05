@@ -1,0 +1,23 @@
+<div class="actions">
+  <button 
+    mat-button mat-raised-button
+    [disabled]="!selectedProject || loading"
+    (click)="onViewSelectedProject()"
+  >
+    View Selected Project
+  </button>
+  <button
+    mat-button mat-raised-button
+    [disabled]="loading"
+    (click)="onExportData()"
+  >
+    Export Data
+  </button>
+  <button
+    mat-button mat-raised-button
+    [disabled]="loading"
+    (click)="onCreateProject()"
+  >
+   Create New Project <mat-icon>add</mat-icon>
+  </button>
+</div>

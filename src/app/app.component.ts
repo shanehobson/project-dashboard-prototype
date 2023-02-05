@@ -13,9 +13,13 @@ import { ProjectService } from './services/project.service';
 })
 export class AppComponent {
   projects$ = this.projectService.getProjects()
-    .pipe(tap(() => this.loading = false));
+    .pipe(tap(() => {
+      this.loading = false;
+      this.selectedProject = null;
+    }));
 
   columns: Column[] = [];
+  selectedProject: Project | null = null;
   loading = true;
  
   constructor(private projectService: ProjectService){}
@@ -37,6 +41,10 @@ export class AppComponent {
   onUpdateProject(project: Project) {
     this.loading = true;
     this.projectService.updateProject(project);
+  }
+
+  onSelectProject(project: Project | null) {
+    this.selectedProject = project;
   }
 
   get pagination(): PageEvent {

@@ -19,13 +19,14 @@ export class ProjectDashboardTableComponent implements OnInit, OnChanges, OnDest
   @Input() pagination: PageEvent | null = null;
   @Output() updatePagination = new EventEmitter<PageEvent>();
   @Output() updateProject = new EventEmitter<Project>();
+  @Output() selectProject = new EventEmitter<Project>();
 
   selectedProject: Project | null = null;
   projectBeingSaved: Project | null = null;
   projectLastSaved: Project | null = null;
   fieldsUpdated = new Map<string, boolean>;
   changesPending = false;
-  pageSizeOptions = [ 5, 10, 20 ];
+  pageSizeOptions = [ 5, 10, 15, 20 ];
   timerId: NodeJS.Timeout | undefined = undefined;
 
   form: FormGroup = this.fb.group({
@@ -79,6 +80,7 @@ export class ProjectDashboardTableComponent implements OnInit, OnChanges, OnDest
       status: project.status
     });
     this.changesPending = false;
+    this.selectProject.emit(project);
   }
 
   onSaveProject() {

@@ -1,0 +1,15 @@
+.actions {
+  display: grid;
+  grid-template-columns: repeat(3, 1fr);
+  grid-gap: 1rem;
+  padding-bottom: .5rem;
+}
+
+button {
+  background-color: #A4343A;
+  color: #ffffff;
+}
+
+button.mat-button-disabled {
+  background-color: #d3d3d3 !important;
+}

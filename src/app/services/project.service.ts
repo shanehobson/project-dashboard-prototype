@@ -17,7 +17,7 @@ export class ProjectService {
 
   defaultPagination: PageEvent = {
     pageIndex: 0,
-    pageSize: 20,
+    pageSize: 15,
     previousPageIndex: 0,
     length: 0
   };

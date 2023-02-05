@@ -1,0 +1,12 @@
+.under-construction {
+  position: reltaive;
+
+  > * {
+    margin: 1rem auto;
+    text-align: center;
+  }
+
+  img {
+    display: block;
+  }
+}
