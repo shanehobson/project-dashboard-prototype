@@ -34,6 +34,11 @@ export class AppComponent {
     this.projectService.updatePagination(event);
   }
 
+  onUpdateProject(project: Project) {
+    this.loading = true;
+    this.projectService.updateProject(project);
+  }
+
   get pagination(): PageEvent {
     return this.projectService.getPagination();
   }

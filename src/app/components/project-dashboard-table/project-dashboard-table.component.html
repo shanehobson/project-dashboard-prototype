@@ -7,23 +7,101 @@
     <table>
       <tr class="header">
         <th *ngFor="let column of columns">{{column.field | split | titlecase}}</th>
+        <th></th>
       </tr>
-      <tr *ngFor="let project of projects">
-        <td *ngFor="let column of columns">
-          <ng-container [ngSwitch]="column.field">
-            <span *ngSwitchCase="'created'">
-              {{ project[column.field] | date }}
+      <tr
+        *ngFor="let project of projects" [ngClass]="selectedProject === project ? 'selected' : ''"
+        [ngClass]="successAnimationId === project.id ? 'success' : ''"
+        >
+        <ng-container [formGroup]="form" *ngIf="project === selectedProject else row">
+          <td *ngFor="let column of columns">
+            <ng-container [ngSwitch]="column.field">
+              <span *ngSwitchCase="'title'">
+                <input formControlName="title">
+              </span>
+              <span *ngSwitchCase="'division'">
+                <select formControlName="division">
+                  <option
+                    *ngFor="let option of column.options"
+                    [value]="option"
+                    >
+                    {{ option | split | titlecase }}
+                  </option>
+                </select>
+              </span>
+              <span *ngSwitchCase="'project_owner'">
+                <input formControlName="project_owner">
+              </span>
+              <span *ngSwitchCase="'budget'">
+                <input formControlName="budget" type="number">
+              </span>
+              <span *ngSwitchCase="'status'">
+                <select formControlName="status">
+                  <option
+                    *ngFor="let option of column.options"
+                    [value]="option"
+                    >
+                    {{ option | split | titlecase }}
+                  </option>
+                </select>
+              </span>
+              <span *ngSwitchCase="'created'">
+                {{ project[column.field] | date }}
+              </span>
+              <span *ngSwitchCase="'modified'">
+                {{ project[column.field] | date }}
+              </span>
+              <span *ngSwitchDefault>
+                {{ project[column.field] | split | titlecase }}
+              </span>
+            </ng-container>
+          </td>
+        </ng-container>
+        <ng-template #row>
+          <td *ngFor="let column of columns">
+            <ng-container [ngSwitch]="column.field">
+              <span *ngSwitchCase="'created'">
+                {{ project[column.field] | date }}
+              </span>
+              <span *ngSwitchCase="'modified'">
+                {{ project[column.field] | date }}
+              </span>
+              <span *ngSwitchCase="'budget'">
+                {{ project[column.field] | currency }}
+              </span>
+              <span *ngSwitchDefault>
+                {{ project[column.field] | split | titlecase }}
+              </span>
+            </ng-container>
+          </td>
+        </ng-template>
+        <td
+          class="edit"
+          (click)="onSelectProject(project)"
+          >
+          <ng-container *ngIf="selectedProject !== project; else saveProject">
+            <span *ngIf="successAnimationId === project.id; else editRow" class="success">
+              Saved!
             </span>
-            <span *ngSwitchCase="'modified'">
-              {{ project[column.field] | date }}
-            </span>
-            <span *ngSwitchCase="'budget'">
-              {{ project[column.field] | currency }}
-            </span>
-            <span *ngSwitchDefault>
-              {{ project[column.field] | split | titlecase }}
-            </span>
+            <ng-template #editRow>
+              <img
+                src="../../../assets/icons/edit.png"
+                matTooltip="Edit Row"
+                aria-label="Edit Row"
+              >
+            </ng-template>
           </ng-container>
+          <ng-template #saveProject>
+            <mat-icon 
+              class="save"
+              (click)="onSaveProject()"
+              [ngClass]="changesPending ? '' : 'disabled'"
+              matTooltip="Save Changes"
+              aria-label="Save Changes">
+              save
+            </mat-icon>
+          </ng-template>
+        
         </td>
       </tr>
    

@@ -1,7 +1,8 @@
 import { Injectable } from '@angular/core';
 import { BehaviorSubject, delay, map, Observable, take } from 'rxjs';
 import * as moment from 'moment';
-import { Project, ProjectField } from '../interfaces/project';
+import * as uuid from 'uuid';
+import { Project} from '../interfaces/project';
 import { Operator, ProjectFilter } from '../interfaces/project-filter';
 import mockData from '../data/mock-data.json';
 import { Column, columns } from '../interfaces/column';
@@ -11,7 +12,8 @@ import { PageEvent } from '@angular/material/paginator';
   providedIn: 'root'
 })
 export class ProjectService {
-  private projects$ = new BehaviorSubject<Project[]>(mockData);
+  allProjects: Project[] | null = null;
+  private projects$ = new BehaviorSubject<Project[]>(this.loadAllProjects());
 
   defaultPagination: PageEvent = {
     pageIndex: 0,
@@ -20,6 +22,18 @@ export class ProjectService {
     length: 0
   };
   private pagination: PageEvent = this.defaultPagination;
+  private lastAppliedFilters: ProjectFilter[] = [];
+
+  loadAllProjects(): Project[] {
+    if (this.allProjects) {
+      return this.allProjects;
+    }
+    const projects: Project[] = mockData.map((project: Project) => {
+      return { ...project, id: uuid.v4() } // adding uuid in order to identify projects when updating
+    });
+    this.allProjects = projects;
+    return projects;
+  }
 
   getProjects(): Observable<Project[]> {
     return this.projects$.
@@ -32,12 +46,13 @@ export class ProjectService {
   }
 
   updateFilters(filters: ProjectFilter[]) {
-    let projects = [...mockData];
+    let projects = [...this.allProjects as Project[]];
     for (const filter of filters) {
       projects = this.filterProjects(filter, projects);
     }
   
     this.pagination = this.defaultPagination;
+    this.lastAppliedFilters = filters;
     this.projects$.next(projects);
   }
 
@@ -89,5 +104,15 @@ export class ProjectService {
 
   getPagination(): PageEvent {
     return this.pagination;
+  }
+
+  updateProject(updatedProject: Project) {
+    this.allProjects = this.allProjects!.map(project => {
+      if (project.id === updatedProject.id) {
+        return updatedProject;
+      }
+      return project;
+    });
+    this.updateFilters(this.lastAppliedFilters);
   }
 }

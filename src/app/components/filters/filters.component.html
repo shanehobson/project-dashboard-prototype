@@ -8,7 +8,7 @@
         {{filter.operator | titlecase}}
       </span>
       <span class="values">
-        {{filter.values | formatFilterValues}}
+        {{filter.values | formatFilterValues | split | titlecase}}
       </span>
       <span
         class="remove"
