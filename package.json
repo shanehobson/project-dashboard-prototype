@@ -8,6 +8,9 @@
     "watch": "ng build --watch --configuration development",
     "test": "ng test"
   },
+  "engines": {
+    "node": "19.4.0"
+  },
   "private": true,
   "dependencies": {
     "@angular-eslint/schematics": "^1.0.0",
