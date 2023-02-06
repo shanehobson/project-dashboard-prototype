@@ -7,12 +7,15 @@ import { Project} from '../interfaces/project';
 import { Operator, ProjectFilter } from '../interfaces/project-filter';
 import mockData from '../data/mock-data.json';
 import { Column, columns } from '../interfaces/column';
+import { MetadataService } from './metadata.service';
+import { ProjectMetadata } from '../interfaces/project-metadata';
 
 @Injectable({
   providedIn: 'root'
 })
 export class ProjectService {
   allProjects: Project[] | null = null;
+  private metadata$ = new BehaviorSubject<ProjectMetadata | null>(null);
   private projects$ = new BehaviorSubject<Project[]>(this.loadAllProjects());
 
   defaultPagination: PageEvent = {
@@ -24,6 +27,8 @@ export class ProjectService {
   private pagination: PageEvent = this.defaultPagination;
   private lastAppliedFilters: ProjectFilter[] = [];
 
+  constructor(private metadataService: MetadataService) {}
+
   loadAllProjects(): Project[] {
     if (this.allProjects) {
       return this.allProjects;
@@ -33,6 +38,7 @@ export class ProjectService {
       return { ...project, id: uuid.v4() }
     });
     this.allProjects = projects;
+    this.updateMetadata();
     return projects;
   }
 
@@ -44,6 +50,17 @@ export class ProjectService {
           this.pagination.length = projects.length;
           return this.applyPagination(projects);
       }))
+  }
+
+  updateMetadata() {
+    if (this.allProjects) {
+      const metadata = this.metadataService.compileMetadata(this.allProjects);
+      this.metadata$.next(metadata);
+    }
+  }
+
+  getMetadata(): Observable<ProjectMetadata | null> {
+    return this.metadata$;
   }
 
   updateFilters(filters: ProjectFilter[]) {
@@ -110,6 +127,7 @@ export class ProjectService {
       return project;
     });
     this.updateFilters(this.lastAppliedFilters);
+    this.updateMetadata();
   }
 
   getColumns(): Column[] {

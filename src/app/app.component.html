@@ -4,7 +4,11 @@
     <app-navbar [selectedProject]="selectedProject" [loading]="loading"></app-navbar>
   </div>
   <hr>
-  <!-- <app-project-dashboard-metadata></app-project-dashboard-metadata> -->
+  <div class="metadata">
+    <app-project-dashboard-metadata [metadata]="metadata$ | async">
+    </app-project-dashboard-metadata>
+  </div>
+  <hr>
   <app-filters
     [columns]="columns"
     [loading]="loading"
@@ -20,4 +24,5 @@
     (selectProject)="onSelectProject($event)"
     >
   </app-project-dashboard-table>
+
 </div>

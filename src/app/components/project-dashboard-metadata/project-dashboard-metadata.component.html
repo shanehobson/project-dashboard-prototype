@@ -1,1 +1,35 @@
-<p>project-dashboard-metadata works!</p>
+
+<div class="cards" *ngIf="metadata">
+  <div class="card">
+    <span class="data">{{metadata.totalProjects}}</span>
+    <span class="label">Total Projects</span>
+  </div>
+  <div class="card">
+    <span class="data">{{metadata.averageProjectsPerProjectOwner}}</span>
+    <span class="label">Projects Per Owner</span>
+  </div>
+  <div class="card">
+    <span class="data">{{metadata.totalProjectsBudget | currency}}</span>
+    <span class="label">Total <br>Budget</span>
+  </div>
+  <div class="card">
+    <span class="data">{{metadata.averageProjectBudget | currency}}</span>
+    <span class="label">Avg Project Budget</span>
+  </div>
+  <div class="card">
+    <span class="data">{{metadata.projectsCreatedInLastMonth}}</span>
+    <span class="label">Created in Last Month</span>
+  </div>
+  <div class="card">
+    <span class="data">{{metadata.projectsCreatedInLastYear}}</span>
+    <span class="label">Created in Last Year</span>
+  </div>
+  <div class="card">
+    <span class="data">{{metadata.projectsModifiedInLastMonth}}</span>
+    <span class="label">Modified in Last Month</span>
+  </div>
+  <div class="card">
+    <span class="data">{{metadata.projectsModifiedInLastYear}}</span>
+    <span class="label">Modified in Last Year</span>
+  </div>
+</div>

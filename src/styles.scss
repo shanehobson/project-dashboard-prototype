@@ -91,5 +91,21 @@ body {
   max-width: 1200px;
 }
 
+.card {
+  background-color: darken(#ffffff,5);
+  box-sizing: border-box;
+  width: 144px;
+  height: 100px;
+  padding: 25px 20px 20px;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+
+  > * {
+    text-align: center;
+  }
+}
+
 @include mat.core-theme($my-theme);
 @include mat.all-component-themes($my-theme);

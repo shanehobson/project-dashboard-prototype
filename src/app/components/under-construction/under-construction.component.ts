@@ -1,4 +1,4 @@
-import { Component, OnInit } from '@angular/core';
+import { Component } from '@angular/core';
 import { MatDialogRef } from '@angular/material/dialog';
 
 @Component({
@@ -6,13 +6,10 @@ import { MatDialogRef } from '@angular/material/dialog';
   templateUrl: './under-construction.component.html',
   styleUrls: ['./under-construction.component.scss']
 })
-export class UnderConstructionComponent implements OnInit {
+export class UnderConstructionComponent {
 
   constructor(
     public dialogRef: MatDialogRef<UnderConstructionComponent>,
   ) {}
-
-  ngOnInit(): void {
-  }
 
 }

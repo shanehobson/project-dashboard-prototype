@@ -20,6 +20,8 @@
             color="warn"
             (click)="onSelectProject(project)"
             [value]="project"
+            matTooltip="Edit Project"
+            aria-label="Edit Project"
             [checked]="selectedProject?.id === project?.id"
             >
           </mat-radio-button>

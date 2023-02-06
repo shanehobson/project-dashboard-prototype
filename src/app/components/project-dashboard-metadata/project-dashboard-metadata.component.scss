@@ -1,0 +1,21 @@
+.cards {
+  display: grid;
+  grid-template-columns: repeat(9, 151px);
+
+  .card {
+    .data {
+      font-weight: bold;
+      padding-bottom: 0;
+      font-size: 1.4rem;
+      color: #3b3b3b;
+    }
+    .label {
+      text-transform: uppercase;
+      color: darken(#d3d3d3, 20);
+      font-size: 0.8rem;
+      padding-top: 5px;
+      height: 60px;
+    }
+    
+  }
+}
