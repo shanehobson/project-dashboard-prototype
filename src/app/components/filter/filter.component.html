@@ -21,7 +21,25 @@
       </mat-select>
     </mat-form-field>
 
-    <div *ngIf="form.get('operator')?.value === 'equals'" class="full-width">
+    <div
+      *ngIf="
+        form.get('operator')?.value === 'greater_than' || 
+        form.get('operator')?.value === 'less_than'"
+        class="full-width"
+    >
+      <mat-form-field
+        appearance="fill"
+        >
+          <mat-label>Value</mat-label>
+          <input matInput formControlName="value" type="number" (keyup.enter)="onSubmit()">
+      </mat-form-field>
+    </div>
+
+    <div
+      *ngIf="form.get('operator')?.value === 'equals' || 
+        form.get('operator')?.value === 'contains'" 
+      class="full-width"
+    >
       <ng-container [ngSwitch]="form.get('column')?.value.type">
         <mat-form-field
         *ngSwitchCase="'string'"

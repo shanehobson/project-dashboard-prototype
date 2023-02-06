@@ -9,5 +9,8 @@ export interface ProjectFilter {
 export enum Operator {
   Equals = 'equals',
   Between = 'between',
+  Contains = 'contains',
+  GreaterThan = 'greater_than',
+  LessThan = 'less_than'
 }
 

@@ -3,7 +3,7 @@ import { Operator } from "./project-filter";
 
 export interface Column {
   field: ProjectField,
-  operator: Operator,
+  operators: Operator[],
   type: FieldType,
   options?: string[]
 }
@@ -13,12 +13,12 @@ export type FieldType = 'string' | 'number' | 'date' | 'select';
 export const columns: Column[] = [
   {
     field: 'title',
-    operator: Operator.Equals,
+    operators: [ Operator.Equals, Operator.Contains ],
     type: 'string'
   },
   {
     field: 'division',
-    operator: Operator.Equals,
+    operators: [ Operator.Equals ],
     type: 'select',
     options: [
       Division.Accounting,
@@ -30,17 +30,17 @@ export const columns: Column[] = [
   },
   {
     field: 'project_owner',
-    operator: Operator.Equals,
+    operators: [ Operator.Equals, Operator.Contains ],
     type: 'string'
   },
   {
     field: 'budget',
-    operator: Operator.Equals,
+    operators: [ Operator.Equals, Operator.GreaterThan, Operator.LessThan ],
     type: 'number'
   },
   {
     field: 'status',
-    operator: Operator.Equals,
+    operators: [ Operator.Equals ],
     type: 'select',
     options: [
       ProjectStatus.Archived,
@@ -51,12 +51,12 @@ export const columns: Column[] = [
   },
   {
     field: 'created',
-    operator: Operator.Between,
+    operators: [ Operator.Between ],
     type: 'date'
   },
   {
     field: 'modified',
-    operator: Operator.Between,
+    operators: [ Operator.Between ],
     type: 'date'
   }
 ];

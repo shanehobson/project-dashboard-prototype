@@ -33,11 +33,10 @@ export class FilterComponent implements OnInit, OnDestroy {
       .pipe(
         takeUntil(this.unsubscribe$),
         filter(val => !!val))
-      .subscribe((column) => {
+      .subscribe((column: Column) => {
         this.form.get('operator')?.enable();
         this.form.patchValue({
-          // @todo: Enable multiple operators per field.
-          operator: column ? column.operator : null, 
+          operator: column ? column.operators[0] : null, 
           value: null,
           date1: null,
           date2: null
@@ -62,7 +61,7 @@ export class FilterComponent implements OnInit, OnDestroy {
     if (!column) {
       return [];
     }
-    return [ column.operator ];
+    return column.operators;
   }
 
   get disabled(): boolean {

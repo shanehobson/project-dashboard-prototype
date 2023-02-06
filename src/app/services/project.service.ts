@@ -86,6 +86,28 @@ export class ProjectService {
           } else {
             return project[field] === values[0];
           }
+
+        case Operator.Contains:
+          if (typeof project[field] === 'string') {
+            const projectField: string = project[field] as string;
+            return projectField.toLowerCase().indexOf(values[0].toString().toLowerCase()) > -1;
+          } else {
+            return project[field] === values[0];
+          }
+
+        case Operator.GreaterThan:
+          if (typeof project[field] !== 'number') {
+            throw new Error('Invalid data type for operator greater_than');
+          } else {
+            return project[field] > values[0];
+          }
+
+        case Operator.LessThan:
+          if (typeof project[field] !== 'number') {
+            throw new Error('Invalid data type for operator less_than');
+          } else {
+            return project[field] < values[0];
+          }
    
         case Operator.Between:
           const [start, end] = values
