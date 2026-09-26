@@ -1,27 +1,55 @@
-# ProjectDashboardPrototype
+# Project Dashboard Prototype
 
-This project was generated with [Angular CLI](https://github.com/angular/angular-cli) version 14.1.0.
+A prototype dashboard UI for browsing and editing a portfolio of projects, built with Angular 14 and Angular Material. It runs on mock data: a service simulates an HTTP backend, so the app works without a server.
 
-## Development server
+## Features
 
-Run `ng serve` for a dev server. Navigate to `http://localhost:4200/`. The application will automatically reload if you change any of the source files.
+- **Summary metrics.** Total and average budget, number of project owners, average projects per owner, and how many projects were created or modified in the last month and year. The metrics recompute whenever a project changes.
+- **Filterable table.** Add filters through a dialog, and they appear as removable chips. The operators available depend on each column's type:
+  - Text (title, project owner): *equals* and *contains*
+  - Select (division, status): *equals*
+  - Number (budget): *equals*, *greater than*, *less than*
+  - Date (created, modified): *between*, using a date-range picker
+- **Pagination** with page sizes of 5, 10, 15, or 20.
+- **Inline editing.** Select a row to edit its title, division, owner, budget, and status. Saved fields are highlighted, and a check mark confirms the save.
+- A loading state shows while each simulated request is in flight. The toolbar actions (view, export, create) open an "under construction" dialog.
 
-## Code scaffolding
+## Tech stack
 
-Run `ng generate component component-name` to generate a new component. You can also use `ng generate directive|pipe|service|class|guard|interface|enum|module`.
+- Angular 14, TypeScript, RxJS
+- Angular Material (dialog, chips, datepicker, paginator, and other components) with Moment.js
+- SCSS
+- Express, to serve the production build
 
-## Build
+## How it works
 
-Run `ng build` to build the project. The build artifacts will be stored in the `dist/` directory.
+`ProjectService` loads 30 records from `src/app/data/mock-data.json`, gives each one a UUID, and exposes them through a `BehaviorSubject`. Filtering, pagination, and updates all push a new list through that subject. The table renders the stream with the `async` pipe, and an 800 ms `delay` simulates network latency. `MetadataService` derives the summary metrics from the full data set.
 
-## Running unit tests
+## Getting started
 
-Run `ng test` to execute the unit tests via [Karma](https://karma-runner.github.io).
+Requirements: Node.js (`package.json` pins 19.4.0 under `engines`).
 
-## Running end-to-end tests
+```bash
+npm install
 
-Run `ng e2e` to execute the end-to-end tests via a platform of your choice. To use this command, you need to first add a package that implements end-to-end testing capabilities.
+# Development server at http://localhost:4200
+npm run ng -- serve
 
-## Further help
+# Production build, then serve it with Express
+npm run build
+npm start
+```
 
-To get more help on the Angular CLI use `ng help` or go check out the [Angular CLI Overview and Command Reference](https://angular.io/cli) page.
+`server.js` reads `PORT` and falls back to 8080. Run unit tests with `npm test`.
+
+## Project structure
+
+```
+src/app/
+  components/   Table, metadata, filters, filter dialog, navbar, spinner
+  services/     ProjectService (mock backend), MetadataService
+  interfaces/   Project, Column, ProjectFilter, ProjectMetadata
+  pipes/        Display formatting for field names and filter values
+  data/         Mock project data
+server.js       Express server for the built app
+```
